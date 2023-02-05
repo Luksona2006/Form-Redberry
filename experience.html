@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Reddbery</title>
+</head>
+
+<body>
+    <main>
+        <button class="button__back" onclick="history.back()">
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M8.85769 0.352185C9.0832 0.577756 9.20988 0.883657 9.20988 1.20262C9.20988 1.52157 9.0832 1.82747 8.85769 2.05305L2.90348 8.00726L8.85769 13.9615C9.0768 14.1883 9.19805 14.4922 9.19531 14.8076C9.19257 15.123 9.06606 15.4247 8.84304 15.6477C8.62002 15.8707 8.31832 15.9972 8.00293 16C7.68754 16.0027 7.3837 15.8815 7.15683 15.6623L0.352185 8.85769C0.126681 8.63212 0 8.32622 0 8.00726C0 7.6883 0.126681 7.3824 0.352185 7.15683L7.15683 0.352185C7.3824 0.126681 7.6883 0 8.00726 0C8.32622 0 8.63212 0.126681 8.85769 0.352185Z"
+                    fill="#2E2E2E" />
+            </svg>
+        </button>
+        <div class="main__wrapper">
+            <div class="form__wrapper">
+                <div class="form__title">
+                    <h2 class="black-24">ᲒᲐᲛᲝᲪᲓᲘᲚᲔᲑᲐ</h2>
+                    <h3 class="black-20">2/3</h3>
+                </div>
+                <div>
+                    <form>
+                        <div class="form__block">
+                            <div class="input__div">
+                                <label class="label" for="position">თანამდებობა</label>
+                                <div class="input__wrapper">
+                                    <input class="position__input" name="position" type="text"
+                                        placeholder="თანამდებობა">
+                                    <span><img src="" alt=""></span>
+                                </div>
+                                <span>მინიმუმ 2 სიმბოლო</span>
+                            </div>
+                            <div class="input__div">
+                                <label for="employer">დამსაქმებელი</label>
+                                <div class="input__wrapper">
+                                    <input class="employer__input" name="employer" type="text"
+                                        placeholder="დამსაქმებელი">
+                                    <span><img src="" alt=""></span>
+                                </div>
+                                <span>მინიმუმ 2 სიმბოლო</span>
+                            </div>
+                            <div class="input__divs">
+                                <div class="input__div">
+                                    <label for="dateStart">დაწყების თარიღი</label>
+                                    <div class="date__wrapper">
+                                        <input class="dateStart__input" name="dateStart" type="date">
+                                        <div><img src="images/date__icon.png" alt="date icon"></div>
+                                    </div>
+                                </div>
+                                <div class="input__div">
+                                    <label for="dateEnd">დამთავრების თარიღი</label>
+                                    <div class="date__wrapper">
+                                        <input class="dateEnd__input" name="dateEnd" type="date">
+                                        <div><img src="images/date__icon.png" alt="date icon"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input__div">
+                                <label for="aboutExperience">აღწერა</label>
+                                <textarea name="aboutExperience" class="aboutExperience__textarea" cols="30" rows="5"
+                                    placeholder="როლი თანამდებობაზე და ზოგადი აღწერა"></textarea>
+                            </div>
+                        </div>
+                        <div class="line"></div>
+                    </form>
+                    <div><button class="button__skyblue" id="experienceBlock__add">მეტი გამოცდილების დამატება</button>
+                    </div>
+                </div>
+                <div class="form__buttons">
+                    <a href="personal.html"><button class="button__purple" id="back__button">უკან</button></a>
+                    <button class="button__purple" id="form__submit">შემდეგი</button>
+                </div>
+            </div>
+            <div class="form__result">
+                <div class="result__wrapper">
+                    <div class="form__image"><img src="" alt=""></div>
+                    <div class="info">
+                        <h4 class="red-34" id="result__name"></h4>
+                        <div class="contacts">
+                            <div><img src="" alt="">
+                                <p class="black-18" id="result__email"></p>
+                            </div>
+                            <div><img src="" alt="">
+                                <p class="black-18" id="result__number"></p>
+                            </div>
+                        </div>
+                        <div class="infos">
+                            <h5 class="red-18"></h5>
+                            <p class="black-16" id="result__about"></p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="infos" id="experience__infos">
+                            <h5 class="red-18">გამოცდილება</h5>
+                            <div>
+                                <p class="black-16b result__position_employer"></p>
+                                <span class="result__experience_date"></span>
+                                <p class="black-16 result__aboutExperience"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </div>
+                <div><img id="resumeIcon" src="images/resume__icon.png" alt="resume icon"></div>
+            </div>
+    </main>
+
+    <script type="module" src="js/experience.js"></script>
+</body>
+
+</html>
