@@ -797,6 +797,7 @@ select {
 @media(max-width: 920px) {
     .loading__popUp {
         flex-direction: column;
+        text-align: center;
     }
 }
 
