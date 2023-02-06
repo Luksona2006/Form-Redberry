@@ -100,9 +100,16 @@ export const emailCheck = function(element) {
 }
 
 export const numberCheck = function(element) {
-    if(/^(\+?995)?\d{9}$/.test(element.value)) {
+    if(/^(\+?995)?\s\d{3}\s\d{2}\s\d{2}$/.test(element.value)) {
         inputVerifiedSpan(element)
     } else {
         inputWrongSpan(element)
     }
+}
+
+const loadingPopUp = document.querySelector('.loading__popUp')
+
+export const loadingPopUpInner = function(paragraph, svg) {
+    loadingPopUp.innerHTML = `<p>${paragraph}</p>
+                              ${svg}`
 }

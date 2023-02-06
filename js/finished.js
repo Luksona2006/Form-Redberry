@@ -1,21 +1,6 @@
 'use strict'
 import {storageGetItem} from './functions.js'
-
-const infoExperienceHtml = `
-                            <div>
-                                <p class="black-16b result__position_employer"></p>
-                                <span class="result__experience_date"></span>
-                                <p class="black-16 result__aboutExperience"></p>
-                            </div>`
-
-const infoEducationHtml = `
-                        <div>
-                            <p class="black-16b result__school_quality"></p>
-                            <span class="result__education_date"></span>
-                            <p class="black-16 result__aboutEducation"></p>
-                        </div>`
-
-const lineHtml = `<div class="line"></div>`
+import {infoExperienceHtml, infoEducationHtml, lineHtml} from './domElements.js'
 
 for(let i = 0; i < storageGetItem('Person')['employer'].length ; i++) {
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)

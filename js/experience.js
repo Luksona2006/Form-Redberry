@@ -1,5 +1,6 @@
 'use strict'
 import {storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify} from './functions.js'
+import {infoExperienceHtml, lineHtml, deleteBtn} from './domElements.js'
 
 const formSubmit = document.querySelector('#form__submit')
 const experienceBlockBtn = document.querySelector('#experienceBlock__add')
@@ -61,16 +62,6 @@ const formHtml = `
                     </div>
                     <div class="line"></div>
                     `
-
-const infoExperienceHtml = `
-                            <div>
-                                <p class="black-16b result__position_employer"></p>
-                                <span class="result__experience_date"></span>
-                                <p class="black-16 result__aboutExperience"></p>
-                            </div>`
-
-const lineHtml = `<div class="line"></div>`
-const deleteBtn = `<div><button class="red__button">წაშლა</button><div>`
 
 // FUNCTIONS
 
@@ -153,8 +144,8 @@ for (let i = 0; i < formBlock.length; i++) {
             inputSimpleVerify(this)
             if (this.value === '') defaultInput(this)
             changeStorage(`${element === dateStartInput[i] ? 'expDateStart' : 'expDateEnd'}`, this, i)
-            experienceDateResult[i].textContent = `${ dateStartInput[i].value } - ${ dateEndInput[i].value } `
-            if (cvObj.expDateStart[i] === '' && cvObj.expDateEnd[i] === '') {
+            experienceDateResult[i].textContent = `${dateStartInput[i].value} - ${dateEndInput[i].value}`
+            if (dateStartInput[i].value === '' && dateEndInput[i].value === '') {
                 experienceDateResult[i].textContent = ''
             }
         });

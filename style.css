@@ -692,6 +692,7 @@ select {
     border-radius: 8px;
     height: fit-content;
     transition: 0.4s all;
+    z-index: 3;
 }
 
 #notification p {
@@ -773,7 +774,7 @@ select {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        min-height: unset;
+        min-height: 620px;
     }
 }
 
@@ -798,6 +799,12 @@ select {
     .loading__popUp {
         flex-direction: column;
         text-align: center;
+    }
+}
+
+@media(max-width: 820px) {
+    .cv__wrapper .form__result {
+        padding: 68px 32px;
     }
 }
 
