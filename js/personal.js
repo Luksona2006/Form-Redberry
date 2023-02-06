@@ -26,6 +26,8 @@ const emailResult = document.querySelector('#result__email')
 const numberResult = document.querySelector('#result__number')
 const aboutResult = document.querySelector('#result__about')
 
+const imageLabel = document.querySelector('#image__label')
+
 const emailIco = emailResult.previousElementSibling;
 const numberIco = numberResult.previousElementSibling;
 
@@ -67,14 +69,16 @@ if (!localStorage.getItem('Person')) {
     emailInput.value = cvObj.email;
     numberInput.value = cvObj.phone_number;
 
-    if (firstnameInput.value !== '' || lastNameInput.value !== '' || aboutTextarea.value !== '' || emailInput.value !== '' || numberInput.value !== '') {
-        geTwoCheck(firstnameInput)
-        geTwoCheck(lastNameInput)
+    if (firstnameInput.value !== '' || lastNameInput.value !== '' || aboutTextarea.value !== '' || emailInput.value !== '' || numberInput.value !== '' || storageGetItem('Person')['image'] !== '') {
+        geTwoCheck(firstnameInput);
+        geTwoCheck(lastNameInput);
+        
+        if(storageGetItem('Person')['image'] === '') imageLabel.style.color = '#E52F2F'
+        
+        if (aboutTextarea.value.length > 0) inputVerified(aboutTextarea);
 
-        if (aboutTextarea.value.length > 0) inputVerified(aboutTextarea)
-
-        emailCheck(emailInput)
-        numberCheck(numberInput)
+        emailCheck(emailInput);
+        numberCheck(numberInput);
     }
 
     nameResult.textContent = `${cvObj.name}`
@@ -99,6 +103,7 @@ defaultbtn.addEventListener('change', function () {
     const reader = new FileReader();
     if (reader.result === storageGetItem('Person')['image']) return
     reader.addEventListener('load', function () {
+        imageLabel.style.color = '#000000'
         window.scrollTo(0, 0)
         document.querySelector('html').style.overflow = 'hidden';
         document.body.style.overflow = 'hidden'
@@ -181,11 +186,16 @@ numberInput.addEventListener('keyup', function () {
 formSubmit.addEventListener('click', function (e) {
     e.preventDefault();
     let valid = true;
-    geTwoCheck(firstnameInput)
-    geTwoCheck(lastNameInput)
-    inputVerified(aboutTextarea)
-    emailCheck(emailInput)
+    geTwoCheck(firstnameInput);
+    geTwoCheck(lastNameInput);
+    inputVerified(aboutTextarea);
+    emailCheck(emailInput);
     numberCheck(numberInput);
+
+    if(storageGetItem('Person')['image'] === '') {
+        imageLabel.style.color = '#E52F2F'
+        valid = false;
+    };
 
     [firstnameInput, lastNameInput, aboutTextarea, emailInput, numberInput].forEach(element => {
         if (element.style.border === '2px solid rgb(239, 80, 80)') valid = false;

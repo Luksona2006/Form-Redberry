@@ -51,7 +51,7 @@ for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
 
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     schoolQualityResult[i].textContent = `${cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree}`;
-    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_datee}`;
+    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_date}`;
     aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 

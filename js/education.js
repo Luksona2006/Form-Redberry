@@ -116,7 +116,7 @@ for (let i = 0; i < formBlock.length; i++) {
 }
 
 for (let i = 0; i < formBlock.length; i++) {
-    if ( cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' || cvObj.educations[i].due_datee !== '' || cvObj.educations[i].description) {
+    if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' || cvObj.educations[i].due_date !== '' || cvObj.educations[i].description) {
         minTwoCheck(schoolInput[i]);
         [qualitySelected[i], eduDateEndInput[i], aboutEducationTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
@@ -144,7 +144,7 @@ for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
 
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     schoolQualityResult[i].textContent = `${cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' ? cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree : ''}`;
-    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_datee}`;
+    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_date}`;
     aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
@@ -283,7 +283,14 @@ formSubmit.addEventListener('click', function (e) {
                 }, 400);
             })
             .then(() => delay(400))
-            .then(() => window.location.replace('finished.html'))
+            .then(() =>
+            { 
+                history.pushState(null, null, 'index.html');
+                window.onpopstate = function () {
+                    history.go(1);
+                };
+                window.location.href = 'finished.html'
+            })
     }
 })
 
