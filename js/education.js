@@ -1,6 +1,7 @@
 'use strict'
 import { delay, randomMs, storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify, loadingPopUpInner } from './functions.js'
 import { infoExperienceHtml, infoEducationHtml, lineHtml, deleteBtn, loadingSvg, verifyiedSvg } from './domElements.js'
+import { educationTypesObj } from './educationTypesObj.js'
 
 const formSubmit = document.querySelector('#form__submit')
 const experienceBlockBtn = document.querySelector('#experienceBlock__add')
@@ -60,16 +61,7 @@ const formHtml = `
                                     <div class="custom__arrow"><img src="images/arrow.png" alt="arrow drop down"></div>
                                 </div>           
                                 <div class="selector__popUp">
-                                    <ul>
-                                        <li class="li">საშუალო სკოლის დიპლომი</li>
-                                        <li class="li">ზოგადსაგანმანათლებლო დიპლომი</li>
-                                        <li class="li">ბაკალავრი</li>
-                                        <li class="li">მაგისტრი</li>
-                                        <li class="li">დოქტორი</li>
-                                        <li class="li">ასოცირებული ხარისხი</li>
-                                        <li class="li">სტუდენტი</li>
-                                        <li class="li">კოლეჯი (ხარისხის გარეშე)</li>
-                                        <li class="li">სხვა</li>
+                                    <ul>                                     
                                     </ul>
                                 </div>
                             </div>      
@@ -99,6 +91,7 @@ for (let i = 0; i < storageGetItem('Person')['school'].length - 1; i++) {
     document.querySelector('form').insertAdjacentHTML('beforeend', formHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
+    educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     formBlock = [...document.querySelectorAll('.form__block')]
 }
 
@@ -133,7 +126,6 @@ for (let i = 0; i < formBlock.length; i++) {
         })
     }
 }
-
 
 nameResult.textContent = `${cvObj.firstname} ${cvObj.lastname} `;
 aboutResult.textContent = `${cvObj.about} `;
