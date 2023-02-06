@@ -10,21 +10,36 @@
 </head>
 
 <body>
+    <!-- BLUR -->
     <div class="blurPopUp"></div>
-    <div class="loading__popUp">
-        <p>ფაილის დამუშავება</p>
-        <svg width="80px" height="80px" class="spinner" viewBox="0 0 50 50">
-            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-        </svg>
-    </div>
     <main>
-        <button class="button__back" onclick="history.back()">
+        <!-- REFRESH REQUST B -->
+        <button class="button__back">
             <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M8.85769 0.352185C9.0832 0.577756 9.20988 0.883657 9.20988 1.20262C9.20988 1.52157 9.0832 1.82747 8.85769 2.05305L2.90348 8.00726L8.85769 13.9615C9.0768 14.1883 9.19805 14.4922 9.19531 14.8076C9.19257 15.123 9.06606 15.4247 8.84304 15.6477C8.62002 15.8707 8.31832 15.9972 8.00293 16C7.68754 16.0027 7.3837 15.8815 7.15683 15.6623L0.352185 8.85769C0.126681 8.63212 0 8.32622 0 8.00726C0 7.6883 0.126681 7.3824 0.352185 7.15683L7.15683 0.352185C7.3824 0.126681 7.6883 0 8.00726 0C8.32622 0 8.63212 0.126681 8.85769 0.352185Z"
                     fill="#2E2E2E" />
             </svg>
         </button>
+        <!-- LOADING POPUP-->
+        <div class="loading__popUp">
+            <p>ფაილის დამუშავება</p>
+            <svg width="80px" height="80px" class="spinner" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+            </svg>
+        </div>
+        <!-- REQUST TO REFRESH FORMS POPUP -->
+        <div id="requestPopUp">
+            <p>
+                დადასტურების შემთხვევაში მონაცემები წაიშლება.
+                დარწმუნებული ხართ, რომ წაშლა გსურთ ?
+            </p>
+            <div>
+                <button id="dontVerify">არა</button>
+                <button class="red__button" id="verify">დიახ</button>
+            </div>
+        </div>
+        <!-- MAIN CONTENT -->
         <div class="main__wrapper">
             <div class="form__wrapper">
                 <div class="form__title">
@@ -43,7 +58,7 @@
                                 <span>მინიმუმ 2 ასო, ქართული ასოები</span>
                             </div>
                             <div class="input__div">
-                                <label for="lastName">სახელი</label>
+                                <label for="lastName">გვარი</label>
                                 <div class="input__wrapper">
                                     <input id="lastName__input" name="lastName" type="text" placeholder="მუმლაძე">
                                     <span><img src="" alt=""></span>
@@ -53,12 +68,14 @@
                         </div>
                         <div>
                             <label for="image">პირადი ფოტოს ატვირთვა</label>
-                            <input id="default__button" name="image" type="file" placeholder="ატვირთვა" accept="image/png, image/jpg" hidden/>
+                            <input id="default__button" name="image" type="file" placeholder="ატვირთვა"
+                                accept="image/png, image/jpg" hidden />
                             <button id="custom__button" type="button">ატვირთვა</button>
                         </div>
                         <div class="input__div">
                             <label for="about">ჩემ შესახებ (არასავალდებულო)</label>
-                            <textarea name="about" id="about__textarea" cols="30" rows="5" placeholder="ზოგადი ინფო შენ შესახებ"></textarea>
+                            <textarea name="about" id="about__textarea" cols="30" rows="5"
+                                placeholder="ზოგადი ინფო შენ შესახებ"></textarea>
                         </div>
                         <div class="input__div">
                             <label for="email">ელ.ფოსტა</label>
@@ -89,8 +106,12 @@
                     <div class="info">
                         <h4 class="red-34" id="result__name"></h4>
                         <div class="contacts">
-                            <div><img src="" alt=""><p class="black-18" id="result__email"></p></div>
-                            <div><img src="" alt=""><p class="black-18" id="result__number"></p></div>
+                            <div><img src="" alt="">
+                                <p class="black-18" id="result__email"></p>
+                            </div>
+                            <div><img src="" alt="">
+                                <p class="black-18" id="result__number"></p>
+                            </div>
                         </div>
                         <div class="infos">
                             <h5 class="red-18" id="result__title_about"></h5>
@@ -103,7 +124,8 @@
         </div>
     </main>
 
-    <script  type="module" src="js/personal.js"></script>
+    <script type="module" src="js/personal.js"></script>
+    <script src="js/refreshForm.js"></script>
 </body>
 
 </html>

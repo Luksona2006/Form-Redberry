@@ -10,12 +10,15 @@
 </head>
 
 <body>
+    <!-- BLUR -->
+    <div class="blurPopUp"></div>
     <main>
+        <!-- NOTIFICATION -->
         <div id="notification">
             <p>რეზიუმე წარმატებით <br>გაიგზავნა 🎉</p>
             <img src="images/delete__icon.png" alt="remove notification">
         </div>
-        <div class="blurPopUp"></div>
+        <!-- REQUST TO REFRESH FORMS POPUP -->
         <div id="requestPopUp">
             <p>
                 დადასტურების შემთხვევაში მონაცემები წაიშლება.
@@ -26,6 +29,7 @@
                 <button class="red__button" id="verify">დიახ</button>
             </div>
         </div>
+        <!-- REFRESH REQUST BUTTON -->
         <button class="button__back">
             <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -33,7 +37,7 @@
                     fill="#2E2E2E" />
             </svg>
         </button>
-
+        <!-- MAIN CONTENT -->
         <div class="cv__wrapper">
             <div class="form__result cv">
                 <div class="result__wrapper">
@@ -76,6 +80,7 @@
         </div>
     </main>
     <script type="module" src="js/finished.js"></script>
+    <script src="js/refreshForm.js"></script>
 </body>
 
 </html>

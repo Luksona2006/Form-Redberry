@@ -12,14 +12,14 @@ export const storageSetItem = function (Name, Item) {
 
 let cvObj = JSON.parse(localStorage.getItem('Person'))
 
-export const changeStorage = function (property, element, index) {
-    if (!Array.isArray(cvObj[property])) {
+export const changeStorage = function (property, element, index, type = '') {
+    if (type !== '') {
         cvObj = storageGetItem('Person')
-        cvObj[`${property}`] = element.value
+        cvObj[type][index][property] = element.value
         storageSetItem('Person', cvObj)
     } else {
         cvObj = storageGetItem('Person')
-        cvObj[`${property}`][index] = element.value
+        cvObj[property] = element.value
         storageSetItem('Person', cvObj)
     }
 };
@@ -28,7 +28,7 @@ export const inputWrongSpan = function (input) {
     if (input.closest('.input__div').querySelector('span').classList.contains('verified__span')) input.closest('.input__div').querySelector('span').classList.replace('verified__span', 'wrong__span')
     else input.closest('.input__div').querySelector('span').classList.add('wrong__span');
     input.closest('.input__div').querySelector('img').src = 'images/wrong.png';
-    input.closest('.input__div').querySelector('span').style.color = '#E52F2F'
+    input.closest('.input__div').querySelector('label').style.color = '#E52F2F';
     input.style.border = '2px solid #EF5050';
 }
 

@@ -6,12 +6,6 @@ import { educationTypesObj } from './educationTypesObj.js'
 const formSubmit = document.querySelector('#form__submit')
 const experienceBlockBtn = document.querySelector('#experienceBlock__add')
 
-const imageResult = document.querySelector('.form__image').firstElementChild;
-const nameResult = document.querySelector('#result__name')
-const emailResult = document.querySelector('#result__email')
-const numberResult = document.querySelector('#result__number')
-const aboutResult = document.querySelector('#result__about')
-
 let schoolInput = document.getElementsByClassName('school__input')
 let qualitySelected = document.getElementsByClassName('quality__selected')
 let eduDateEndInput = document.getElementsByClassName('educationDateEnd__input')
@@ -27,6 +21,11 @@ const loadingText = loadingPopUp.querySelector('p')
 const blurPopUp = document.querySelector('.blurPopUp')
 
 // Result Elements
+const imageResult = document.querySelector('.form__image').firstElementChild;
+const nameResult = document.querySelector('#result__name')
+const emailResult = document.querySelector('#result__email')
+const numberResult = document.querySelector('#result__number')
+const aboutResult = document.querySelector('#result__about')
 
 let positionEmployerResult = document.getElementsByClassName('result__position_employer')
 let experienceDateResult = document.getElementsByClassName('result__experience_date')
@@ -35,6 +34,7 @@ let aboutExperienceResult = document.getElementsByClassName('result__aboutExperi
 let schoolQualityResult = document.getElementsByClassName('result__school_quality')
 let eductaionDateResult = document.getElementsByClassName('result__education_date')
 let aboutEducationResult = document.getElementsByClassName('result__aboutEducation')
+
 let customArrow = document.getElementsByClassName('custom__arrow')
 
 let formBlock = [...document.querySelectorAll('.form__block')]
@@ -82,27 +82,24 @@ const formHtml = `
                     </div>
                 <div class="line"></div>`
 
-for (let i = 0; i < storageGetItem('Person')['employer'].length - 1; i++) {
+for (let i = 0; i < storageGetItem('Person')['experiences'].length - 1; i++) {
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
 }
 
-for (let i = 0; i < storageGetItem('Person')['school'].length - 1; i++) {
+for (let i = 0; i < storageGetItem('Person')['educations'].length - 1; i++) {
     document.querySelector('form').insertAdjacentHTML('beforeend', formHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
     formBlock = [...document.querySelectorAll('.form__block')]
 }
 
-if (storageGetItem('Person')['school'].length - 1 > 0) {
+if (storageGetItem('Person')['educations'].length - 1 > 0) {
     formBlock[formBlock.length - 1].insertAdjacentHTML('beforeend', deleteBtn)
     formBlock[formBlock.length - 1].querySelector('.red__button').addEventListener('click', function (e) {
         e.preventDefault();
         cvObj = storageGetItem('Person');
-        cvObj.school.pop();
-        cvObj.quality.pop();
-        cvObj.eduDate.pop();
-        cvObj.eduAbout.pop();
+        cvObj.educations.pop()
         storageSetItem('Person', cvObj);
         window.location.reload();
     })
@@ -112,14 +109,14 @@ let cvObj = storageGetItem('Person')
 
 for (let i = 0; i < formBlock.length; i++) {
     educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
-    schoolInput[i].value = cvObj.school[i]
-    qualitySelected[i].textContent = cvObj.quality[i] === '' ? 'აირჩიეთ ხარისხი' : cvObj.quality[i];
-    eduDateEndInput[i].value = cvObj.eduDate[i]
-    aboutEducationTextarea[i].value = cvObj.eduAbout[i]
+    schoolInput[i].value = cvObj.educations[i].institute
+    qualitySelected[i].textContent = cvObj.educations[i].degree === '' ? 'აირჩიეთ ხარისხი' : cvObj.educations[i].degree;
+    eduDateEndInput[i].value = cvObj.educations[i].due_date
+    aboutEducationTextarea[i].value = cvObj.educations[i].description
 }
 
 for (let i = 0; i < formBlock.length; i++) {
-    if (cvObj.school[i] !== '' || cvObj.quality[i] !== '' || cvObj.eduDate[i] !== '' || cvObj.eduAbout[i]) {
+    if ( cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' || cvObj.educations[i].due_datee !== '' || cvObj.educations[i].description) {
         minTwoCheck(schoolInput[i]);
         [qualitySelected[i], eduDateEndInput[i], aboutEducationTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
@@ -127,32 +124,32 @@ for (let i = 0; i < formBlock.length; i++) {
     }
 }
 
-nameResult.textContent = `${cvObj.firstname} ${cvObj.lastname} `;
-aboutResult.textContent = `${cvObj.about} `;
-aboutResult.previousElementSibling.textContent = `${cvObj.about === '' ? '' : 'ჩემ შესახებ'} `;
-emailResult.textContent = `${cvObj.email} `;
-numberResult.textContent = `${cvObj.number} `;
-imageResult.src = `${cvObj.image} `;
-imageResult.parentElement.style.display = cvObj.image === '' ? 'none' : 'inline-block';
-emailIco.src = `${cvObj.email === '' ? '' : 'images/email_icon.png'} `;
-numberIco.src = `${cvObj.number === '' ? '' : 'images/number_icon.png'} `;
+nameResult.textContent = `${cvObj.name}`
+aboutResult.textContent = `${cvObj.about_me}`
+aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
+emailResult.textContent = `${cvObj.email}`
+numberResult.textContent = `${cvObj.phone_number}`
+imageResult.src = `${cvObj.image}`
+imageResult.parentElement.style.display = 'inline-block';
+emailIco.src = `images/email_icon.png`
+numberIco.src = `images/number_icon.png`
 
-for (let i = 0; i < storageGetItem('Person')['employer'].length; i++) {
-    positionEmployerResult[i].textContent = `${cvObj.position[i] !== '' || cvObj.employer[i] !== '' ? cvObj.position[i] + ', ' + cvObj.employer[i] : ''} `;
-    if (storageGetItem('Person')['expDateStart'][i] !== '' || storageGetItem('Person')['expDateEnd'][i] !== '') {
-        experienceDateResult[i].textContent = `${cvObj.expDateStart[i] + ' - ' + cvObj.expDateEnd[i]} `;
+for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
+    positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : '' } `;
+    if (cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '') {
+        experienceDateResult[i].textContent = `${cvObj.experiences[i].start_date + ' - ' + cvObj.experiences[i].due_date} `;
     }
-    aboutExperienceResult[i].textContent = `${cvObj.expAbout[i]} `;
+    aboutExperienceResult[i].textContent = `${cvObj.experiences[i].description}`;
 }
 
-for (let i = 0; i < storageGetItem('Person')['school'].length; i++) {
-    schoolQualityResult[i].textContent = `${cvObj.school[i] !== '' || cvObj.quality[i] !== '' ? cvObj.school[i] + ', ' + cvObj.quality[i] : ''}`;
-    eductaionDateResult[i].textContent = `${cvObj.eduDate[i]}`;
-    aboutEducationResult[i].textContent = `${cvObj.eduAbout[i]}`;
+for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
+    schoolQualityResult[i].textContent = `${cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' ? cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree : ''}`;
+    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_datee}`;
+    aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
-for (let i = 0; i < storageGetItem('Person')['school'].length; i++) {
-    if (storageGetItem('Person')['quality'][i] !== '') {
+for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
+    if (storageGetItem('Person')['educations'][i].degree !== '') {
         qualitySelected[i].style.color = '#000000'
     }
 }
@@ -164,7 +161,7 @@ for (let i = 0; i < formBlock.length; i++) {
     schoolInput[i].addEventListener('keyup', function () {
         minTwoCheck(this);
         if (this.value === '') defaultInput(this)
-        changeStorage(`school`, this, i)
+        changeStorage(`institute`, this, i, 'educations')
         schoolQualityResult[i].textContent = `${schoolInput[i].value}, ${qualitySelected[i].textContent}`
         if (schoolInput[i].value === 'აირჩიეთ ხარისხი' && qualitySelected[i].textContent === '') {
             schoolQualityResult[i].textContent = ''
@@ -187,7 +184,7 @@ for (let i = 0; i < formBlock.length; i++) {
     eduDateEndInput[i].addEventListener('change', function () {
         inputSimpleVerify(this)
         if (this.value === '') defaultInput(this)
-        changeStorage('eduDate', this, i)
+        changeStorage('due_date', this, i, 'educations')
         eductaionDateResult[i].textContent = `${this.value}`
     });
 
@@ -195,7 +192,7 @@ for (let i = 0; i < formBlock.length; i++) {
     aboutEducationTextarea[i].addEventListener('keyup', function () {
         inputSimpleVerify(this)
         if (this.value === '') defaultInput(this)
-        changeStorage('eduAbout', this, i)
+        changeStorage('description', this, i, 'educations')
         aboutEducationResult[i].textContent = `${this.value} `
     });
 }
@@ -204,10 +201,14 @@ experienceBlockBtn.addEventListener('click', function (e) {
     e.preventDefault();
     if (formBlock.length > 2) return
     cvObj = storageGetItem('Person');
-    cvObj.school.push('');
-    cvObj.quality.push('');
-    cvObj.eduDate.push('');
-    cvObj.eduAbout.push('');
+    cvObj.educations.push(
+        {
+            institute: "",
+            degree: "",
+            due_date: "",
+            description: ""
+        }
+    );
     storageSetItem('Person', cvObj)
     window.location.reload();
 })
@@ -223,7 +224,7 @@ for (let i = 0; i < formBlock.length; i++) {
             customArrow[i].firstElementChild.style.rotate = '0deg'
 
             cvObj = storageGetItem('Person')
-            cvObj['quality'][i] = qualitySelected[i].textContent
+            cvObj.educations[i].degree = qualitySelected[i].textContent
             storageSetItem('Person', cvObj)
 
             if (schoolInput[i].value !== '') schoolQualityResult[i].textContent = `${schoolInput[i].value + ', ' + qualitySelected[i].textContent}`

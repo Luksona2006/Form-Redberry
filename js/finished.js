@@ -2,21 +2,15 @@
 import {storageGetItem} from './functions.js'
 import {infoExperienceHtml, infoEducationHtml, lineHtml} from './domElements.js'
 
-for(let i = 0; i < storageGetItem('Person')['employer'].length ; i++) {
+for(let i = 0; i < storageGetItem('Person')['experiences'].length ; i++) {
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
 }   
 
-for(let i = 0; i < storageGetItem('Person')['school'].length; i++) {
+for(let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
 }
-
-// Requst Popup elements
-const requestPopUp = document.querySelector('#requestPopUp');
-const dontVerify = document.querySelector('#dontVerify');
-const verify = document.querySelector('#verify')
-const blurPopUp = document.querySelector('.blurPopUp')
 
 // Results
 const imageResult = document.querySelector('.form__image').firstElementChild;
@@ -25,7 +19,6 @@ const emailResult = document.querySelector('#result__email')
 const numberResult = document.querySelector('#result__number')
 const aboutResult = document.querySelector('#result__about')
 const notification = document.querySelector('#notification')
-const removeStorage = document.querySelector('.button__back')
 
 let positionEmployerResult = document.getElementsByClassName('result__position_employer')
 let experienceDateResult = document.getElementsByClassName('result__experience_date')
@@ -40,27 +33,26 @@ const numberIco = numberResult.previousElementSibling;
 
 let cvObj = storageGetItem('Person')
 
-nameResult.textContent = `${ cvObj.firstname } ${ cvObj.lastname } `;
-aboutResult.textContent = `${cvObj.about} `;
-aboutResult.previousElementSibling.textContent = `ჩემ შესახებ`
-emailResult.textContent = `${cvObj.email} `;
-numberResult.textContent = `${cvObj.number}`;
-imageResult.src = `${ cvObj.image } `;
+nameResult.textContent = `${cvObj.name}`
+aboutResult.textContent = `${cvObj.about_me}`
+aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
+emailResult.textContent = `${cvObj.email}`
+numberResult.textContent = `${cvObj.phone_number}`
+imageResult.src = `${cvObj.image}`
 imageResult.parentElement.style.display = 'inline-block';
-emailIco.src = `images/email_icon.png`;
-numberIco.src = `images/number_icon.png`;
+emailIco.src = `images/email_icon.png`
+numberIco.src = `images/number_icon.png`
 
-for (let i = 0; i < storageGetItem('Person')['employer'].length; i++) {
-    positionEmployerResult[i].textContent = `${cvObj.position[i] + ', ' + cvObj.employer[i]} `;
-    experienceDateResult[i].textContent = `${cvObj.expDateStart[i] + ' - ' + cvObj.expDateEnd[i]} `;
-    aboutExperienceResult[i].textContent = `${cvObj.expAbout[i]}`
+for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
+    positionEmployerResult[i].textContent = `${cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer} `;
+    experienceDateResult[i].textContent = `${cvObj.experiences[i].start_date + ' - ' + cvObj.experiences[i].due_date} `;
+    aboutExperienceResult[i].textContent = `${cvObj.experiences[i].description}`;
 }
 
-for (let i = 0; i < storageGetItem('Person')['school'].length; i++) {
-    schoolQualityResult[i].textContent = `${cvObj.school[i] + ', ' + cvObj.quality[i]}`;
-    experienceDateResult[i].textContent = `${cvObj.expDateStart[i] + ' - ' + cvObj.expDateEnd[i]}`;
-    eductaionDateResult[i].textContent = `${cvObj.eduDate[i]}`;
-    aboutEducationResult[i].textContent = `${cvObj.eduAbout[i]}`;
+for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
+    schoolQualityResult[i].textContent = `${cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree}`;
+    eductaionDateResult[i].textContent = `${cvObj.educations[i].due_datee}`;
+    aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
 notification.querySelector('img').addEventListener('click', function() {
@@ -70,27 +62,3 @@ notification.querySelector('img').addEventListener('click', function() {
         notification.style.display = 'none'
     },  400)
 })
-
-removeStorage.addEventListener('click', function() {
-    requestPopUp.style.top = '100px'
-    requestPopUp.style.opacity = '1'  
-    blurPopUp.style.zIndex = '99'
-    blurPopUp.style.opacity = '1'
-    document.querySelector('html').style.overflow = 'hidden'
-    document.body.style.overflow = 'hidden'
-})
-
-verify.addEventListener('click', function() {
-    localStorage.removeItem('Person')
-    setTimeout(() => window.location.href = 'index.html', 500)
-})
-
-dontVerify.addEventListener('click', function() {
-    requestPopUp.style.opacity = '0'
-    requestPopUp.style.top = '-50%'
-    blurPopUp.style.opacity = '0'
-    setTimeout(() => blurPopUp.style.zIndex = '-99', 400)
-    document.querySelector('html').style.overflow = 'unset'
-    document.body.style.overflow = 'unset'
-})
-
