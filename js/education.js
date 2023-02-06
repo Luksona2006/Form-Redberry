@@ -91,7 +91,6 @@ for (let i = 0; i < storageGetItem('Person')['school'].length - 1; i++) {
     document.querySelector('form').insertAdjacentHTML('beforeend', formHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
-    educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     formBlock = [...document.querySelectorAll('.form__block')]
 }
 
@@ -112,6 +111,7 @@ if (storageGetItem('Person')['school'].length - 1 > 0) {
 let cvObj = storageGetItem('Person')
 
 for (let i = 0; i < formBlock.length; i++) {
+    educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     schoolInput[i].value = cvObj.school[i]
     qualitySelected[i].textContent = cvObj.quality[i] === '' ? 'აირჩიეთ ხარისხი' : cvObj.quality[i];
     eduDateEndInput[i].value = cvObj.eduDate[i]
@@ -171,10 +171,17 @@ for (let i = 0; i < formBlock.length; i++) {
         }
     });
     selectElement[i].addEventListener('click', function () {
-        selectorPopUp[i].style.zIndex = '10'
-        selectorPopUp[i].style.opacity = '1'
-        selectorPopUp[i].style.top = '100%'
-        customArrow[i].firstElementChild.style.rotate = '180deg'
+        if( selectorPopUp[i].style.opacity === '0') {
+            selectorPopUp[i].style.zIndex = '10'
+            selectorPopUp[i].style.opacity = '1'
+            selectorPopUp[i].style.top = '100%'
+            customArrow[i].firstElementChild.style.rotate = '180deg'
+        } else {
+            selectorPopUp[i].style.zIndex = '-10'
+            selectorPopUp[i].style.opacity = '0'
+            selectorPopUp[i].style.top = '0'
+            customArrow[i].firstElementChild.style.rotate = '0deg'
+        }
     })
 
     eduDateEndInput[i].addEventListener('change', function () {
@@ -275,7 +282,7 @@ formSubmit.addEventListener('click', function (e) {
                 }, 400);
             })
             .then(() => delay(400))
-            .then(() => window.location.href = 'finished.html')
+            .then(() => window.location.replace('finished.html'))
     }
 })
 
