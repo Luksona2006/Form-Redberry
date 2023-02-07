@@ -168,7 +168,7 @@ for (let i = 0; i < formBlock.length; i++) {
         }
     });
     selectElement[i].addEventListener('click', function () {
-        if( selectorPopUp[i].style.opacity === '0') {
+        if(selectorPopUp[i].style.opacity === '0' || selectorPopUp[i].style.opacity === '') {
             selectorPopUp[i].style.zIndex = '10'
             selectorPopUp[i].style.opacity = '1'
             selectorPopUp[i].style.top = '100%'
