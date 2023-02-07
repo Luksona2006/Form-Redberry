@@ -57,14 +57,15 @@ if (!localStorage.getItem('Person')) {
             }
         ],
         image: "",
-        about_me: ""
+        about_me: "",
+        surname: ""
     }
 
     storageSetItem('Person', cvObj)
 } else {
     cvObj = storageGetItem('Person')
-    firstnameInput.value = cvObj.name.slice(0, cvObj.name.indexOf(' '));
-    lastNameInput.value = cvObj.name.slice(cvObj.name.indexOf(' ') + 1);
+    firstnameInput.value = cvObj.name;
+    lastNameInput.value = cvObj.surname;
     aboutTextarea.value = cvObj.about_me;
     emailInput.value = cvObj.email;
     numberInput.value = cvObj.phone_number;
@@ -150,13 +151,13 @@ defaultbtn.addEventListener('change', function () {
 
 [firstnameInput, lastNameInput].forEach(element => {
     element.addEventListener('keyup', function () {
-        geTwoCheck(element);
+        if(element.value === '') defaultInput(element)
+        else geTwoCheck(element);
+        
         cvObj = storageGetItem('Person')
 
-        let personName = cvObj.name.split(' ');
-        if (element === firstnameInput) personName[0] = firstnameInput.value;
-        else personName[1] = lastNameInput.value;
-        cvObj.name = personName.join(' ')
+        if (element === firstnameInput) cvObj.name = element.value
+        else cvObj.surname = element.value
 
         storageSetItem('Person', cvObj)
         nameResult.textContent = `${firstnameInput.value} ${lastNameInput.value}`
