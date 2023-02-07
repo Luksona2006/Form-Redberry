@@ -86,7 +86,7 @@ if(storageGetItem('Person')['experiences'].length - 1 > 0) {
     formBlock[formBlock.length - 1].querySelector('.red__button').addEventListener('click', function(e) {
         e.preventDefault();
         cvObj = storageGetItem('Person');
-        cvObj.experiences[i].pop();
+        cvObj.experiences.pop();
         storageSetItem('Person', cvObj);
         window.location.reload();
     })
