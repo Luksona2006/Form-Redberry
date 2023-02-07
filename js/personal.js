@@ -1,6 +1,6 @@
 'use strict'
 import { delay, randomMs, storageGetItem, storageSetItem, defaultInput, inputVerified, geTwoCheck, emailCheck, numberCheck, loadingPopUpInner, changeStorage } from './functions.js'
-import { loadingSvg, verifyiedSvg } from './domElements.js'
+import { loadingSvg, verifyiedSvg, wrongSvg } from './domElements.js'
 
 const firstnameInput = document.querySelector('#firstName__input')
 const lastNameInput = document.querySelector('#lastName__input')
@@ -101,48 +101,51 @@ custombtn.addEventListener('click', function (e) {
 
 defaultbtn.addEventListener('change', function () {
     const reader = new FileReader();
-    console.log(this.files[0].type)
-    if (reader.result !== storageGetItem('Person')['image'] && this.files[0].type === 'image/png' || this.files[0].type === 'image/jpg') {
-        reader.addEventListener('load', function () {
-            imageLabel.style.color = '#000000'
-            window.scrollTo(0, 0)
-            document.querySelector('html').style.overflow = 'hidden';
-            document.body.style.overflow = 'hidden'
-            loadingText.textContent = 'ფაილის დამუშავება'
-            delay(400)
-                .then(() => {
-                    blurPopUp.style.zIndex = '99'
-                    blurPopUp.style.opacity = '1'
-                    loadingPopUp.style.zIndex = '100'
-                    loadingPopUp.style.top = '0%'
-                    loadingPopUp.style.opacity = '1'
-                })
-                .then(() => delay(randomMs(4500, 3000)))
-                .then(() => loadingPopUpInner('ფაილი წარმატებით დამუშავდა', verifyiedSvg))
-                .then(() => delay(800))
-                .then(() => {
-                    blurPopUp.style.opacity = '0'
-                    loadingPopUp.style.opacity = '0'
-                    loadingPopUp.style.top = '-50%'
-                })
-                .then(() => delay(400))
-                .then(() => {
-                    blurPopUp.style.zIndex = '-99'
-                    loadingPopUp.style.top = '-100%'
-                    document.querySelector('html').style.overflow = 'unset';
-                    document.body.style.overflow = 'unset'
-                })
-                .then(() => {
-                    loadingPopUpInner('ფაილის დამუშავება', loadingSvg)
+    if (reader.result === storageGetItem('Person')['image']) return
+    reader.addEventListener('load', function () {
+        imageLabel.style.color = '#000000'
+        window.scrollTo(0, 0)
+        document.querySelector('html').style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden'
+        loadingText.textContent = 'ფაილის დამუშავება'
+        delay(400)
+            .then(() => {
+                blurPopUp.style.zIndex = '99'
+                blurPopUp.style.opacity = '1'
+                loadingPopUp.style.zIndex = '100'
+                loadingPopUp.style.top = '0%'
+                loadingPopUp.style.opacity = '1'
+            })
+            .then(() => delay(randomMs(4500, 3000)))
+            .then(() => {
+                if (defaultbtn.files[0].type === 'image/png' || defaultbtn.files[0].type === 'image/jpg' || defaultbtn.files[0].type === 'image/jpeg') loadingPopUpInner('ფაილი წარმატებით დამუშავდა', verifyiedSvg)
+                else loadingPopUpInner('ფაილის ფორმატი უნდა იყოს png/jpg/jpeg', wrongSvg)
+            })
+            .then(() => delay(1200))
+            .then(() => {
+                blurPopUp.style.opacity = '0'
+                loadingPopUp.style.opacity = '0'
+                loadingPopUp.style.top = '-50%'
+            })
+            .then(() => delay(400))
+            .then(() => {
+                blurPopUp.style.zIndex = '-99'
+                loadingPopUp.style.top = '-100%'
+                document.querySelector('html').style.overflow = 'unset';
+                document.body.style.overflow = 'unset'
+            })
+            .then(() => {
+                loadingPopUpInner('ფაილის დამუშავება', loadingSvg)
+                if(defaultbtn.files[0].type === 'image/png' || defaultbtn.files[0].type === 'image/jpg' || defaultbtn.files[0].type === 'image/jpeg') {
                     cvObj = storageGetItem('Person')
                     cvObj.image = reader.result;
                     imageResult.parentElement.style.display = 'inline-block'
                     imageResult.src = reader.result;
                     storageSetItem('Person', cvObj)
-                })
-        })
-        reader.readAsDataURL(this.files[0])
-    }
+                }
+            })
+    })
+    reader.readAsDataURL(this.files[0])
 });
 
 [firstnameInput, lastNameInput].forEach(element => {
