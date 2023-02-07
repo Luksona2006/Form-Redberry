@@ -20,11 +20,8 @@ verify.addEventListener('click', function() {
     localStorage.removeItem('Person')
     delay(500)
     .then(() => {
-        history.pushState(null, null, 'index.html');
-        window.onpopstate = function () {
-            history.go(1);
-        };
-        window.location.href = 'index.html';
+        window.location.replace('index.html');
+        return false;
     })
 })
 

@@ -55,6 +55,8 @@ for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
+localStorage.removeItem('Person')
+
 notification.querySelector('img').addEventListener('click', function() {
     notification.style.opacity = '0'
     notification.style.zIndex = '-50'
