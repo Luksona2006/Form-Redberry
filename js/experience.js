@@ -1,5 +1,5 @@
 'use strict'
-import {storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify} from './functions.js'
+import {storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify, personalPageInputs} from './functions.js'
 import {infoExperienceHtml, lineHtml, deleteBtn} from './domElements.js'
 
 const formSubmit = document.querySelector('#form__submit')

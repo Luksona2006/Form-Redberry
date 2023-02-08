@@ -1,5 +1,5 @@
 'use strict'
-import {storageGetItem} from './functions.js'
+import {storageGetItem, personalPageInputs} from './functions.js'
 import {infoExperienceHtml, infoEducationHtml, lineHtml} from './domElements.js'
 
 for(let i = 0; i < storageGetItem('Person')['experiences'].length ; i++) {
