@@ -33,7 +33,7 @@ const numberIco = numberResult.previousElementSibling;
 
 let cvObj = storageGetItem('Person')
 
-nameResult.textContent = `${cvObj.name}`
+nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
 aboutResult.textContent = `${cvObj.about_me}`
 aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
 emailResult.textContent = `${cvObj.email}`

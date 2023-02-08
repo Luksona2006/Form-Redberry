@@ -124,7 +124,7 @@ for (let i = 0; i < formBlock.length; i++) {
     }
 }
 
-nameResult.textContent = `${cvObj.name}`
+nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
 aboutResult.textContent = `${cvObj.about_me}`
 aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
 emailResult.textContent = `${cvObj.email}`

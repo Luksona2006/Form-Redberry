@@ -82,7 +82,7 @@ if (!localStorage.getItem('Person')) {
         numberCheck(numberInput);
     }
 
-    nameResult.textContent = `${cvObj.name}`
+    nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
     aboutResult.textContent = `${cvObj.about_me}`
     aboutResult.previousElementSibling.textContent = `${cvObj.about_me === '' ? '' : 'ჩემ შესახებ'}`
     emailResult.textContent = `${cvObj.email}`
