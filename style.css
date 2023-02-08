@@ -145,6 +145,7 @@ button {
     color: #FFFFFF;
 
     background: #1A1A1A;
+    border: 1px solid #1A1A1A;
     border-radius: 8px;
     transition: 0.4s all;
 }
