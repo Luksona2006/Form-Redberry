@@ -1,7 +1,7 @@
 # This is redberry's task for bootcamp :)
 ## How it works
 #### User enters data in required fields (need to pass validations), right of form all data will be displayied, after all steps will be created cv, that u will see on display
-## Things that I have added by myself
+## Things that I've added by myself
 #### 1) (it was my idea) A delete button to remove the last added form, if the user changes their mind about adding adittional experience or education, user simply deletes the last added form. I think it's more practical and comfortable, so I hope this decision doesn't change the Redberry staff's opinion about my work (in a bad way).
 #### 2) File receiving/File processing, Checking file format (choosing image), if it's png/jpg/jpeg than accept it, else doesn't (corresponding texts)
 #### 3) Data recieving/Data processing/Cv formating animation after submitting education form (last step)
