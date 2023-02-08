@@ -1,11 +1,12 @@
 'use strict'
-import { delay, randomMs, storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify, loadingPopUpInner } from './functions.js'
-import { infoExperienceHtml, infoEducationHtml, lineHtml, deleteBtn, loadingSvg, verifyiedSvg } from './domElements.js'
+import { delay, randomMs, storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify, loadingPopUpInner, personalPageInputs } from './functions.js'
+import { infoExperienceHtml, infoEducationHtml, lineHtml, deleteBtn, verifyiedSvg } from './domElements.js'
 import { educationTypesObj } from './educationTypesObj.js'
 
 const formSubmit = document.querySelector('#form__submit')
 const experienceBlockBtn = document.querySelector('#experienceBlock__add')
 
+// Inputs
 let schoolInput = document.getElementsByClassName('school__input')
 let qualitySelected = document.getElementsByClassName('quality__selected')
 let eduDateEndInput = document.getElementsByClassName('educationDateEnd__input')
@@ -15,18 +16,11 @@ const selectElement = document.getElementsByClassName('select')
 const selectorPopUp = document.getElementsByClassName('selector__popUp')
 
 // Loading popUp elements
-
 const loadingPopUp = document.querySelector('.loading__popUp')
 const loadingText = loadingPopUp.querySelector('p')
 const blurPopUp = document.querySelector('.blurPopUp')
 
 // Result Elements
-const imageResult = document.querySelector('.form__image').firstElementChild;
-const nameResult = document.querySelector('#result__name')
-const emailResult = document.querySelector('#result__email')
-const numberResult = document.querySelector('#result__number')
-const aboutResult = document.querySelector('#result__about')
-
 let positionEmployerResult = document.getElementsByClassName('result__position_employer')
 let experienceDateResult = document.getElementsByClassName('result__experience_date')
 let aboutExperienceResult = document.getElementsByClassName('result__aboutExperience')
@@ -37,10 +31,7 @@ let aboutEducationResult = document.getElementsByClassName('result__aboutEducati
 
 let customArrow = document.getElementsByClassName('custom__arrow')
 
-let formBlock = [...document.querySelectorAll('.form__block')]
-
-const emailIco = emailResult.previousElementSibling;
-const numberIco = numberResult.previousElementSibling;
+let formBlock = [...document.querySelectorAll('.form__block')] // transforming to array 
 
 const formHtml = `
                 <div class="form__block">
@@ -82,11 +73,13 @@ const formHtml = `
                     </div>
                 <div class="line"></div>`
 
+// Adding as much elements as stored experiences obejects
 for (let i = 0; i < storageGetItem('Person')['experiences'].length - 1; i++) {
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
 }
 
+// Adding as much elements as stored educations obejects
 for (let i = 0; i < storageGetItem('Person')['educations'].length - 1; i++) {
     document.querySelector('form').insertAdjacentHTML('beforeend', formHtml)
     document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
@@ -94,6 +87,7 @@ for (let i = 0; i < storageGetItem('Person')['educations'].length - 1; i++) {
     formBlock = [...document.querySelectorAll('.form__block')]
 }
 
+// If there are more than 1 form, add to last form delete button, which deletes last form 
 if (storageGetItem('Person')['educations'].length - 1 > 0) {
     formBlock[formBlock.length - 1].insertAdjacentHTML('beforeend', deleteBtn)
     formBlock[formBlock.length - 1].querySelector('.red__button').addEventListener('click', function (e) {
@@ -107,6 +101,7 @@ if (storageGetItem('Person')['educations'].length - 1 > 0) {
 
 let cvObj = storageGetItem('Person')
 
+// Giving inputs their stored value
 for (let i = 0; i < formBlock.length; i++) {
     educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     schoolInput[i].value = cvObj.educations[i].institute
@@ -115,6 +110,7 @@ for (let i = 0; i < formBlock.length; i++) {
     aboutEducationTextarea[i].value = cvObj.educations[i].description
 }
 
+// If all inputs isn't empty, then check for validation all of it
 for (let i = 0; i < formBlock.length; i++) {
     if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' || cvObj.educations[i].due_date !== '' || cvObj.educations[i].description) {
         minTwoCheck(schoolInput[i]);
@@ -124,16 +120,10 @@ for (let i = 0; i < formBlock.length; i++) {
     }
 }
 
-nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
-aboutResult.textContent = `${cvObj.about_me}`
-aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
-emailResult.textContent = `${cvObj.email}`
-numberResult.textContent = `${cvObj.phone_number}`
-imageResult.src = `${cvObj.image}`
-imageResult.parentElement.style.display = 'inline-block';
-emailIco.src = `images/email_icon.png`
-numberIco.src = `images/number_icon.png`
+// Displaying values from stored object (data from personal page)
+personalPageInputs()
 
+// Displaying values from stored object (data from experience page)
 for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
     positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : '' } `;
     if (cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '') {
@@ -142,6 +132,7 @@ for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
     aboutExperienceResult[i].textContent = `${cvObj.experiences[i].description}`;
 }
 
+// Displaying values from stored object (data from education page)
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     schoolQualityResult[i].textContent = `${cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' ? cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree : ''}`;
     eductaionDateResult[i].textContent = `${cvObj.educations[i].due_date}`;
@@ -156,7 +147,6 @@ for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
 
 
 // EVENT HANDLERS
-
 for (let i = 0; i < formBlock.length; i++) {
     schoolInput[i].addEventListener('keyup', function () {
         minTwoCheck(this);

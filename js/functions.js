@@ -113,3 +113,23 @@ export const loadingPopUpInner = function(paragraph, svg) {
     loadingPopUp.innerHTML = `<p>${paragraph}</p>
                               ${svg}`
 }
+
+export const personalPageInputs = function() {
+    const emailResult = document.querySelector('#result__email')
+    const numberResult = document.querySelector('#result__number')
+    const emailIco = emailResult.previousElementSibling;
+    const numberIco = numberResult.previousElementSibling;
+    const imageResult = document.querySelector('.form__image').firstElementChild;
+    const nameResult = document.querySelector('#result__name')
+    const aboutResult = document.querySelector('#result__about')
+
+    nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
+    aboutResult.textContent = `${cvObj.about_me}`
+    aboutResult.previousElementSibling.textContent = `${cvObj.about_me === '' ? '' : 'ჩემ შესახებ'}`
+    emailResult.textContent = `${cvObj.email}`
+    numberResult.textContent = `${cvObj.phone_number}`
+    imageResult.src = `${cvObj.image}`
+    imageResult.parentElement.style.display = cvObj.image === '' ? 'none' : 'inline-block';
+    emailIco.src = `${cvObj.email === '' ? '' : 'images/email_icon.png'}`
+    numberIco.src = `${cvObj.phone_number === '' ? '' : 'images/number_icon.png'}`
+}

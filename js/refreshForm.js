@@ -1,4 +1,4 @@
-// Requst Popup elements
+// Requst for removing data popUp
 const delay = ms => new Promise(resolve => setTimeout(() => resolve(),ms))
 
 const requestPopUp = document.querySelector('#requestPopUp');

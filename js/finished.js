@@ -33,29 +33,24 @@ const numberIco = numberResult.previousElementSibling;
 
 let cvObj = storageGetItem('Person')
 
-nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
-aboutResult.textContent = `${cvObj.about_me}`
-aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
-emailResult.textContent = `${cvObj.email}`
-numberResult.textContent = `${cvObj.phone_number}`
-imageResult.src = `${cvObj.image}`
-imageResult.parentElement.style.display = 'inline-block';
-emailIco.src = `images/email_icon.png`
-numberIco.src = `images/number_icon.png`
+// Displaying values from stored object (data from personal page)
+personalPageInputs();
 
+// Displaying values from stored object (data from experience page)
 for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
     positionEmployerResult[i].textContent = `${cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer} `;
     experienceDateResult[i].textContent = `${cvObj.experiences[i].start_date + ' - ' + cvObj.experiences[i].due_date} `;
     aboutExperienceResult[i].textContent = `${cvObj.experiences[i].description}`;
 }
 
+// Displaying values from stored object (data from educations page)
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
     schoolQualityResult[i].textContent = `${cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree}`;
     eductaionDateResult[i].textContent = `${cvObj.educations[i].due_date}`;
     aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
-localStorage.removeItem('Person')
+localStorage.removeItem('Person') // Removing data
 
 notification.querySelector('img').addEventListener('click', function() {
     notification.style.opacity = '0'

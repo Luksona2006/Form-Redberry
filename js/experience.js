@@ -5,26 +5,19 @@ import {infoExperienceHtml, lineHtml, deleteBtn} from './domElements.js'
 const formSubmit = document.querySelector('#form__submit')
 const experienceBlockBtn = document.querySelector('#experienceBlock__add')
 
+// Inputs
 let positionInput = document.getElementsByClassName('position__input')
 let employerInput = document.getElementsByClassName('employer__input')
 let dateStartInput = document.getElementsByClassName('dateStart__input')
 let dateEndInput = document.getElementsByClassName('dateEnd__input')
 let aboutExperienceTextarea = document.getElementsByClassName('aboutExperience__textarea')
 
-const imageResult = document.querySelector('.form__image').firstElementChild;
-const nameResult = document.querySelector('#result__name')
-const emailResult = document.querySelector('#result__email')
-const numberResult = document.querySelector('#result__number')
-const aboutResult = document.querySelector('#result__about')
-
+// Result Elements
 let positionEmployerResult = document.getElementsByClassName('result__position_employer')
 let experienceDateResult = document.getElementsByClassName('result__experience_date')
 let aboutExperienceResult = document.getElementsByClassName('result__aboutExperience')
 
 let formBlock = [...document.querySelectorAll('.form__block')]
-
-const emailIco = emailResult.previousElementSibling;
-const numberIco = numberResult.previousElementSibling;
 
 const formHtml = `
                     <div class="form__block">
@@ -73,7 +66,7 @@ const formHtml = `
 
 // FUNCTIONS
 
-
+// Adding as much elements as stored experiences obejects
 for(let i = 0; i < storageGetItem('Person')['experiences'].length - 1; i++) {
     document.querySelector('form').insertAdjacentHTML('beforeend', formHtml)
     document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
@@ -81,6 +74,7 @@ for(let i = 0; i < storageGetItem('Person')['experiences'].length - 1; i++) {
     formBlock = [...document.querySelectorAll('.form__block')]
 }   
 
+// If there are more than 1 form, add to last form delete button, which deletes last form 
 if(storageGetItem('Person')['experiences'].length - 1 > 0) {
     formBlock[formBlock.length - 1].insertAdjacentHTML('beforeend', deleteBtn)
     formBlock[formBlock.length - 1].querySelector('.red__button').addEventListener('click', function(e) {
@@ -94,6 +88,7 @@ if(storageGetItem('Person')['experiences'].length - 1 > 0) {
 
 let cvObj = storageGetItem('Person')
 
+// Giving inputs their stored value
 for (let i = 0; i < formBlock.length; i++) {
     positionInput[i].value = cvObj.experiences[i].position
     employerInput[i].value = cvObj.experiences[i].employer
@@ -102,6 +97,7 @@ for (let i = 0; i < formBlock.length; i++) {
     aboutExperienceTextarea[i].value = cvObj.experiences[i].description
 }
 
+// If all inputs isn't empty, then check for validation all of it
 for (let i = 0; i < formBlock.length; i++) {
     if (cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' || cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '' || cvObj.experiences[i].description !== '') {
         minTwoCheck(positionInput[i]);
@@ -112,16 +108,10 @@ for (let i = 0; i < formBlock.length; i++) {
     }
 }
 
-nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
-aboutResult.textContent = `${cvObj.about_me}`
-aboutResult.previousElementSibling.textContent = 'ჩემ შესახებ'
-emailResult.textContent = `${cvObj.email}`
-numberResult.textContent = `${cvObj.phone_number}`
-imageResult.src = `${cvObj.image}`
-imageResult.parentElement.style.display = 'inline-block';
-emailIco.src = `images/email_icon.png`
-numberIco.src = `images/number_icon.png`
+// Displaying values from stored object (data from personal page)
+personalPageInputs()
 
+// Displaying values from stored object (data from experience page)
 for (let i = 0; i < formBlock.length; i++) {
     positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : '' } `;
     if (cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '') {

@@ -1,5 +1,5 @@
 'use strict'
-import { delay, randomMs, storageGetItem, storageSetItem, defaultInput, inputVerified, geTwoCheck, emailCheck, numberCheck, loadingPopUpInner, changeStorage } from './functions.js'
+import { delay, randomMs, storageGetItem, storageSetItem, defaultInput, inputVerified, geTwoCheck, emailCheck, numberCheck, loadingPopUpInner, changeStorage, personalPageInputs } from './functions.js'
 import { loadingSvg, verifyiedSvg, wrongSvg } from './domElements.js'
 
 const firstnameInput = document.querySelector('#firstName__input')
@@ -18,8 +18,7 @@ const loadingPopUp = document.querySelector('.loading__popUp')
 const loadingText = loadingPopUp.querySelector('p')
 const blurPopUp = document.querySelector('.blurPopUp')
 
-// Result from form
-
+// Result Elements
 const imageResult = document.querySelector('.form__image').firstElementChild;
 const nameResult = document.querySelector('#result__name');
 const emailResult = document.querySelector('#result__email')
@@ -33,6 +32,7 @@ const numberIco = numberResult.previousElementSibling;
 
 // Storage
 
+// If there isn't stored object than store it with all empty values
 if (!localStorage.getItem('Person')) {
     var cvObj = {
         name: "",
@@ -70,6 +70,8 @@ if (!localStorage.getItem('Person')) {
     emailInput.value = cvObj.email;
     numberInput.value = cvObj.phone_number;
 
+    // If all inputs isn't empty, then check for validation all of it
+
     if (firstnameInput.value !== '' || lastNameInput.value !== '' || aboutTextarea.value !== '' || emailInput.value !== '' || numberInput.value !== '' || storageGetItem('Person')['image'] !== '') {
         geTwoCheck(firstnameInput);
         geTwoCheck(lastNameInput);
@@ -82,15 +84,8 @@ if (!localStorage.getItem('Person')) {
         numberCheck(numberInput);
     }
 
-    nameResult.textContent = `${cvObj.name} ${cvObj.surname}`
-    aboutResult.textContent = `${cvObj.about_me}`
-    aboutResult.previousElementSibling.textContent = `${cvObj.about_me === '' ? '' : 'ჩემ შესახებ'}`
-    emailResult.textContent = `${cvObj.email}`
-    numberResult.textContent = `${cvObj.phone_number}`
-    imageResult.src = `${cvObj.image}`
-    imageResult.parentElement.style.display = cvObj.image === '' ? 'none' : 'inline-block';
-    emailIco.src = `${cvObj.email === '' ? '' : 'images/email_icon.png'}`
-    numberIco.src = `${cvObj.phone_number === '' ? '' : 'images/number_icon.png'}`
+    // Displaying values from stored object (data from personal page)
+    personalPageInputs();
 }
 
 // EVENT HANDLERS
