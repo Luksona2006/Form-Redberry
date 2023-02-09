@@ -33,8 +33,9 @@ const numberIco = numberResult.previousElementSibling;
 // Storage
 
 // If there isn't stored object than store it with all empty values
+let cvObj
 if (!localStorage.getItem('Person')) {
-    var cvObj = {
+    cvObj = {
         name: "",
         surname: "",
         email: "",
