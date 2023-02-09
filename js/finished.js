@@ -13,11 +13,6 @@ for(let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
 }
 
 // Results
-const imageResult = document.querySelector('.form__image').firstElementChild;
-const nameResult = document.querySelector('#result__name')
-const emailResult = document.querySelector('#result__email')
-const numberResult = document.querySelector('#result__number')
-const aboutResult = document.querySelector('#result__about')
 const notification = document.querySelector('#notification')
 
 let positionEmployerResult = document.getElementsByClassName('result__position_employer')
@@ -28,8 +23,6 @@ let schoolQualityResult = document.getElementsByClassName('result__school_qualit
 let eductaionDateResult = document.getElementsByClassName('result__education_date')
 let aboutEducationResult = document.getElementsByClassName('result__aboutEducation')
 
-const emailIco = emailResult.previousElementSibling;
-const numberIco = numberResult.previousElementSibling;
 
 let cvObj = storageGetItem('Person')
 
