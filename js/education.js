@@ -386,7 +386,6 @@ formSubmit.addEventListener('click', function (e) {
                                     document.body.style.overflow = 'unset'
                                 }, 400);
                             })
-                            .then(() => delay(400))
                     })
                     .catch(err => console.log(err))
             })
