@@ -259,7 +259,7 @@ formSubmit.addEventListener('click', function (e) {
         urltoFile(storageGetItem('Person')['image'])
         .then(data => fileImage = data)
             .then(() => {
-                // Post data
+                // Create new FormData and append key/values
                 let dataObj = new FormData()
                 dataObj.append('name', storageGetItem('Person')['name'])
                 dataObj.append('surname', storageGetItem('Person')['surname'])
@@ -267,6 +267,7 @@ formSubmit.addEventListener('click', function (e) {
                 dataObj.append('phone_number', storageGetItem('Person')['phone_number'].split(' ').join(''))
                 dataObj.append('image', fileImage)
                 dataObj.append('about_me', storageGetItem('Person')['about_me'])
+
                 storageGetItem('Person')['experiences'].forEach((experience, i) => {
                     const experienceKeys = Object.keys(experience);
                     experienceKeys.forEach(key => dataObj.append(`experiences[${i}][${key}]`, experience[key]))
@@ -277,17 +278,18 @@ formSubmit.addEventListener('click', function (e) {
                     experienceKeys.forEach(key => dataObj.append(`educations[${i}][${key}]`, experience[key]))
                 })
 
-
+                // Post data
                 let dataRecieved;
                 axios.post("https://resume.redberryinternship.ge/api/cvs", dataObj)
                     .then(response => response)
                     .then(data => dataRecieved = data)
                     .then(() => {
-                        dataRecieved = dataRecieved.data
-                        console.log(dataRecieved)
+                        localStorage.removeItem('Person') // Removing data
+                        dataRecieved = dataRecieved.data // Set dataRecieved value to data
                         document.querySelector('.main__wrapper').style.opacity = '0'
                         setTimeout(() => document.querySelector('.main__wrapper').style.display = 'none', 400)
-
+                        
+                        // Creating dom elements to display data 
                         for (let i = 0; i < dataRecieved['experiences'].length; i++) {
                             document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
                             document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
@@ -298,7 +300,7 @@ formSubmit.addEventListener('click', function (e) {
                             document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
                         }
 
-                        // cv
+                        // CV Elements
                         const cvWrapper = document.querySelector('.cv__wrapper')
                         const notification = document.querySelector('#notification')
                   
@@ -318,6 +320,7 @@ formSubmit.addEventListener('click', function (e) {
                         let eductaionDateCv = document.getElementsByClassName('cv__education_date')
                         let aboutEducationCv = document.getElementsByClassName('cv__aboutEducation')
 
+                        // Set data values to elements
                         cvName.textContent = `${dataRecieved.name} ${dataRecieved.surname}`;
                         cvAbout.textContent = `${dataRecieved.about_me}`;
                         cvEmail.textContent = `${dataRecieved.email}`;
@@ -328,22 +331,21 @@ formSubmit.addEventListener('click', function (e) {
                         cvNumberIco.src = 'images/number_icon.png';
 
 
-                        // Displaying values from stored object (data from experience page)
+                        // Displaying values from data (experiences)
                         for (let i = 0; i < dataRecieved['experiences'].length; i++) {
                             positionEmployerCv[i].textContent = `${dataRecieved.experiences[i].position + ', ' + dataRecieved.experiences[i].employer} `;
                             experienceDateCv[i].textContent = `${dataRecieved.experiences[i].start_date + ' - ' + dataRecieved.experiences[i].due_date} `;
                             aboutExperienceCv[i].textContent = `${dataRecieved.experiences[i].description}`;
                         }
 
-                        // Displaying values from stored object (data from educations page)
+                        // Displaying values from data (educations)
                         for (let i = 0; i < dataRecieved['educations'].length; i++) {
                             schoolQualityCv[i].textContent = `${dataRecieved.educations[i].institute + ', ' + dataRecieved.educations[i].degree}`;
                             eductaionDateCv[i].textContent = `${dataRecieved.educations[i].due_date}`;
                             aboutEducationCv[i].textContent = `${dataRecieved.educations[i].description}`;
                         }
 
-                        localStorage.removeItem('Person') // Removing data
-
+                        // Notification event handler
                         notification.querySelector('img').addEventListener('click', function () {
                             notification.style.opacity = '0'
                             notification.style.zIndex = '-50'
@@ -352,6 +354,7 @@ formSubmit.addEventListener('click', function (e) {
                             }, 400)
                         })
 
+                        // Data manipulation UI
                         delay(400)
                             .then(() => {
                                 notification.style.display = 'block'
