@@ -509,11 +509,7 @@ form {
     height: 18px;
 }
 
-.infos {
-    margin: 32px 0;
-}
-
-#experience__infos .line, #education__infos .line{
+.info .line{
     margin: 24px 0;
 }
 

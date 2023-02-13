@@ -12,6 +12,20 @@ export const infoEducationHtml = `
                             <p class="black-16 result__aboutEducation"></p>
                         </div>`
 
+export const cvInfoExperienceHtml = `
+                            <div>
+                                <p class="black-16b cv__position_employer"></p>
+                                <span class="cv__experience_date"></span>
+                                <p class="black-16 cv__aboutExperience"></p>
+                            </div>`
+
+export const cvInfoEducationHtml = `
+                        <div>
+                            <p class="black-16b cv__school_quality"></p>
+                            <span class="cv__education_date"></span>
+                            <p class="black-16 cv__aboutEducation"></p>
+                        </div>`
+
 export const lineHtml = `<div class="line"></div>`
 export const deleteBtn = `<div><button class="red__button">წაშლა</button><div>`
 
@@ -35,8 +49,8 @@ export const wrongSvg = `
                 </svg>
                 `
 
-     
-                        
+
+
 export const loadingSvg = `<svg width="80" height="80" class="spinner" viewBox="0 0 50 50">
                                 <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                            </svg>`

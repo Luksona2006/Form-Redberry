@@ -1,6 +1,6 @@
 'use strict'
 import { delay, randomMs, storageGetItem, storageSetItem, minTwoCheck, defaultInput, changeStorage, inputSimpleVerify, loadingPopUpInner, personalPageInputs } from './functions.js'
-import { infoExperienceHtml, infoEducationHtml, lineHtml, deleteBtn, verifyiedSvg } from './domElements.js'
+import { infoExperienceHtml, infoEducationHtml, cvInfoExperienceHtml, cvInfoEducationHtml, lineHtml, deleteBtn, verifyiedSvg } from './domElements.js'
 import { educationTypesObj } from './educationTypesObj.js'
 
 const formSubmit = document.querySelector('#form__submit')
@@ -284,20 +284,20 @@ formSubmit.addEventListener('click', function (e) {
                     .then(response => response)
                     .then(data => dataRecieved = data)
                     .then(() => {
-                        localStorage.removeItem('Person') // Removing data
+                        // localStorage.removeItem('Person') // Removing data
                         dataRecieved = dataRecieved.data // Set dataRecieved value to data
                         document.querySelector('.main__wrapper').style.opacity = '0'
                         setTimeout(() => document.querySelector('.main__wrapper').style.display = 'none', 400)
                         
                         // Creating dom elements to display data 
                         for (let i = 0; i < dataRecieved['experiences'].length; i++) {
-                            document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
-                            document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
+                            document.querySelector('#cv__experience_infos').insertAdjacentHTML('beforeend', lineHtml)
+                            document.querySelector('#cv__experience_infos').insertAdjacentHTML('beforeend', cvInfoExperienceHtml)
                         }
 
                         for (let i = 0; i < dataRecieved['educations'].length; i++) {
-                            document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
-                            document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
+                            document.querySelector('#cv__education_infos').insertAdjacentHTML('beforeend', lineHtml)
+                            document.querySelector('#cv__education_infos').insertAdjacentHTML('beforeend', cvInfoEducationHtml)
                         }
 
                         // CV Elements
@@ -333,6 +333,7 @@ formSubmit.addEventListener('click', function (e) {
 
                         // Displaying values from data (experiences)
                         for (let i = 0; i < dataRecieved['experiences'].length; i++) {
+                            console.log(positionEmployerCv)
                             positionEmployerCv[i].textContent = `${dataRecieved.experiences[i].position + ', ' + dataRecieved.experiences[i].employer} `;
                             experienceDateCv[i].textContent = `${dataRecieved.experiences[i].start_date + ' - ' + dataRecieved.experiences[i].due_date} `;
                             aboutExperienceCv[i].textContent = `${dataRecieved.experiences[i].description}`;
@@ -380,6 +381,7 @@ formSubmit.addEventListener('click', function (e) {
                                 loadingPopUp.style.top = '-50%'
                                 setTimeout(() => {
                                     blurPopUp.style.zIndex = '-99'
+                                    loadingPopUp.style.zIndex = '-100'
                                     document.querySelector('html').style.overflow = 'unset';
                                     document.body.style.overflow = 'unset'
                                 }, 400);
