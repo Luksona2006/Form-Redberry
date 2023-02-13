@@ -681,11 +681,18 @@ select {
     opacity: 0;
 }
 
+#cv__image {
+    display: none;
+    border-radius: 100%;
+    float: right;
+}
+
 #cv__image img {
     width: 246px;
     height: 246px;
     border-radius: 100%;
 }
+
 
 .cv__wrapper .form__result {
     padding: 68px 80px;
@@ -825,6 +832,11 @@ select {
         display: flex;
         flex-direction: column;
         gap: 34px;
+    }
+    
+    #cv__image {
+        float: none;
+        margin-bottom: 20px;
     }
 }
 
