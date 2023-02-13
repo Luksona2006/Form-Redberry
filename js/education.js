@@ -284,7 +284,7 @@ formSubmit.addEventListener('click', function (e) {
                     .then(response => response)
                     .then(data => dataRecieved = data)
                     .then(() => {
-                        // localStorage.removeItem('Person') // Removing data
+                        localStorage.removeItem('Person') // Removing data
                         dataRecieved = dataRecieved.data // Set dataRecieved value to data
                         document.querySelector('.main__wrapper').style.opacity = '0'
                         setTimeout(() => document.querySelector('.main__wrapper').style.display = 'none', 400)
