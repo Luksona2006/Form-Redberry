@@ -105,14 +105,14 @@ let cvObj = storageGetItem('Person')
 for (let i = 0; i < formBlock.length; i++) {
     educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     schoolInput[i].value = cvObj.educations[i].institute
-    qualitySelected[i].textContent = cvObj.educations[i].degree === '' ? 'აირჩიეთ ხარისხი' : cvObj.educations[i].degree;
+    qualitySelected[i].textContent = cvObj.educations[i].degree_id === '' ? 'აირჩიეთ ხარისხი' : educationTypesObj.find(obj => obj.id === cvObj.educations[i].degree_id).title;
     eduDateEndInput[i].value = cvObj.educations[i].due_date
     aboutEducationTextarea[i].value = cvObj.educations[i].description
 }
 
 // If all inputs isn't empty, then check for validation all of it
 for (let i = 0; i < formBlock.length; i++) {
-    if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' || cvObj.educations[i].due_date !== '' || cvObj.educations[i].description) {
+    if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree_id !== '' || cvObj.educations[i].due_date !== '' || cvObj.educations[i].description) {
         minTwoCheck(schoolInput[i]);
         [qualitySelected[i], eduDateEndInput[i], aboutEducationTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
@@ -125,7 +125,7 @@ personalPageInputs()
 
 // Displaying values from stored object (data from experience page)
 for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
-    positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : '' } `;
+    positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : ''} `;
     if (cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '') {
         experienceDateResult[i].textContent = `${cvObj.experiences[i].start_date + ' - ' + cvObj.experiences[i].due_date} `;
     }
@@ -134,13 +134,15 @@ for (let i = 0; i < storageGetItem('Person')['experiences'].length; i++) {
 
 // Displaying values from stored object (data from education page)
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
-    schoolQualityResult[i].textContent = `${cvObj.educations[i].institute !== '' || cvObj.educations[i].degree !== '' ? cvObj.educations[i].institute + ', ' + cvObj.educations[i].degree : ''}`;
+    if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree_id !== '') {
+        schoolQualityResult[i].textContent = cvObj.educations[i].institute + ', ' + `${cvObj.educations[i].degree_id === '' ? '' : educationTypesObj.find(obj => obj.id === cvObj.educations[i].degree_id).title}`
+    }
     eductaionDateResult[i].textContent = `${cvObj.educations[i].due_date}`;
     aboutEducationResult[i].textContent = `${cvObj.educations[i].description}`;
 }
 
 for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
-    if (storageGetItem('Person')['educations'][i].degree !== '') {
+    if (storageGetItem('Person')['educations'][i].degree_id !== '') {
         qualitySelected[i].style.color = '#000000'
     }
 }
@@ -152,13 +154,13 @@ for (let i = 0; i < formBlock.length; i++) {
         minTwoCheck(this);
         if (this.value === '') defaultInput(this)
         changeStorage(`institute`, this, i, 'educations')
-        schoolQualityResult[i].textContent = `${schoolInput[i].value}, ${qualitySelected[i].textContent}`
-        if (schoolInput[i].value === 'აირჩიეთ ხარისხი' && qualitySelected[i].textContent === '') {
+        schoolQualityResult[i].textContent = `${schoolInput[i].value}, ${qualitySelected[i].textContent === 'აირჩიეთ ხარისხი' ? '' : qualitySelected[i].textContent}`
+        if (qualitySelected[i].textContent === 'აირჩიეთ ხარისხი' && schoolInput[i].value === '') {
             schoolQualityResult[i].textContent = ''
         }
     });
     selectElement[i].addEventListener('click', function () {
-        if(selectorPopUp[i].style.opacity === '0' || selectorPopUp[i].style.opacity === '') {
+        if (selectorPopUp[i].style.opacity === '0' || selectorPopUp[i].style.opacity === '') {
             selectorPopUp[i].style.zIndex = '10'
             selectorPopUp[i].style.opacity = '1'
             selectorPopUp[i].style.top = '100%'
@@ -194,7 +196,7 @@ experienceBlockBtn.addEventListener('click', function (e) {
     cvObj.educations.push(
         {
             institute: "",
-            degree: "",
+            degree_id: "",
             due_date: "",
             description: ""
         }
@@ -214,12 +216,12 @@ for (let i = 0; i < formBlock.length; i++) {
             customArrow[i].firstElementChild.style.rotate = '0deg'
 
             cvObj = storageGetItem('Person')
-            cvObj.educations[i].degree = qualitySelected[i].textContent
+            cvObj.educations[i].degree_id = educationTypesObj.find(obj => obj.title === qualitySelected[i].textContent).id
             storageSetItem('Person', cvObj)
 
             if (schoolInput[i].value !== '') schoolQualityResult[i].textContent = `${schoolInput[i].value + ', ' + qualitySelected[i].textContent}`
             else schoolQualityResult[i].textContent = `${', ' + qualitySelected[i].textContent}`
-            
+
             inputSimpleVerify(qualitySelected[i])
         }
     })
@@ -247,40 +249,143 @@ formSubmit.addEventListener('click', function (e) {
         window.scrollTo(0, 0)
         document.querySelector('html').style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
-        delay(400)
+        // Convery Url to File
+        function urltoFile(url, filename, mimetype) {
+            return (fetch(url)
+                .then(function (res) { return res.arrayBuffer(); })
+                .then(function (buf) { return new File([buf], filename, { type: mimetype }) }))
+        }
+        let fileImage;
+        urltoFile(storageGetItem('Person')['image'])
+        .then(data => fileImage = data)
             .then(() => {
-                blurPopUp.style.zIndex = '99'
-                blurPopUp.style.opacity = '1'
-                loadingPopUp.style.zIndex = '100'
-                loadingPopUp.style.top = '0%'
-                loadingPopUp.style.opacity = '1'
+                // Post data
+                let dataObj = new FormData()
+                dataObj.append('name', storageGetItem('Person')['name'])
+                dataObj.append('surname', storageGetItem('Person')['surname'])
+                dataObj.append('email', storageGetItem('Person')['email'])
+                dataObj.append('phone_number', storageGetItem('Person')['phone_number'].split(' ').join(''))
+                dataObj.append('image', fileImage)
+                dataObj.append('about_me', storageGetItem('Person')['about_me'])
+                storageGetItem('Person')['experiences'].forEach((experience, i) => {
+                    const experienceKeys = Object.keys(experience);
+                    experienceKeys.forEach(key => dataObj.append(`experiences[${i}][${key}]`, experience[key]))
+                })
+
+                storageGetItem('Person')['educations'].forEach((experience, i) => {
+                    const experienceKeys = Object.keys(experience);
+                    experienceKeys.forEach(key => dataObj.append(`educations[${i}][${key}]`, experience[key]))
+                })
+
+
+                let dataRecieved;
+                axios.post("https://resume.redberryinternship.ge/api/cvs", dataObj)
+                    .then(response => response)
+                    .then(data => dataRecieved = data)
+                    .then(() => {
+                        dataRecieved = dataRecieved.data
+                        console.log(dataRecieved)
+                        document.querySelector('.main__wrapper').style.opacity = '0'
+                        setTimeout(() => document.querySelector('.main__wrapper').style.display = 'none', 400)
+
+                        for (let i = 0; i < dataRecieved['experiences'].length; i++) {
+                            document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', lineHtml)
+                            document.querySelector('#experience__infos').insertAdjacentHTML('beforeend', infoExperienceHtml)
+                        }
+
+                        for (let i = 0; i < dataRecieved['educations'].length; i++) {
+                            document.querySelector('#education__infos').insertAdjacentHTML('beforeend', lineHtml)
+                            document.querySelector('#education__infos').insertAdjacentHTML('beforeend', infoEducationHtml)
+                        }
+
+                        // cv
+                        const cvWrapper = document.querySelector('.cv__wrapper')
+                        const notification = document.querySelector('#notification')
+                  
+                        const cvName = document.querySelector('#cv__name')
+                        const cvAbout = document.querySelector('#cv__about')
+                        const cvImage = document.querySelector('#cv__image').firstElementChild;
+                        const cvEmail = document.querySelector('#cv__email')
+                        const cvNumber = document.querySelector('#cv__number')
+                        const cvEmailIco = cvEmail.previousElementSibling;
+                        const cvNumberIco = cvNumber.previousElementSibling;
+
+                        let positionEmployerCv = document.getElementsByClassName('cv__position_employer')
+                        let experienceDateCv = document.getElementsByClassName('cv__experience_date')
+                        let aboutExperienceCv = document.getElementsByClassName('cv__aboutExperience')
+
+                        let schoolQualityCv = document.getElementsByClassName('cv__school_quality')
+                        let eductaionDateCv = document.getElementsByClassName('cv__education_date')
+                        let aboutEducationCv = document.getElementsByClassName('cv__aboutEducation')
+
+                        cvName.textContent = `${dataRecieved.name} ${dataRecieved.surname}`;
+                        cvAbout.textContent = `${dataRecieved.about_me}`;
+                        cvEmail.textContent = `${dataRecieved.email}`;
+                        cvNumber.textContent = `${dataRecieved.phone_number}`;
+                        cvImage.src = `https://resume.redberryinternship.ge${dataRecieved.image}`;
+                        cvImage.parentElement.style.display = 'inline-block';
+                        cvEmailIco.src = 'images/email_icon.png';
+                        cvNumberIco.src = 'images/number_icon.png';
+
+
+                        // Displaying values from stored object (data from experience page)
+                        for (let i = 0; i < dataRecieved['experiences'].length; i++) {
+                            positionEmployerCv[i].textContent = `${dataRecieved.experiences[i].position + ', ' + dataRecieved.experiences[i].employer} `;
+                            experienceDateCv[i].textContent = `${dataRecieved.experiences[i].start_date + ' - ' + dataRecieved.experiences[i].due_date} `;
+                            aboutExperienceCv[i].textContent = `${dataRecieved.experiences[i].description}`;
+                        }
+
+                        // Displaying values from stored object (data from educations page)
+                        for (let i = 0; i < dataRecieved['educations'].length; i++) {
+                            schoolQualityCv[i].textContent = `${dataRecieved.educations[i].institute + ', ' + dataRecieved.educations[i].degree}`;
+                            eductaionDateCv[i].textContent = `${dataRecieved.educations[i].due_date}`;
+                            aboutEducationCv[i].textContent = `${dataRecieved.educations[i].description}`;
+                        }
+
+                        localStorage.removeItem('Person') // Removing data
+
+                        notification.querySelector('img').addEventListener('click', function () {
+                            notification.style.opacity = '0'
+                            notification.style.zIndex = '-50'
+                            setTimeout(() => {
+                                notification.style.display = 'none'
+                            }, 400)
+                        })
+
+                        delay(400)
+                            .then(() => {
+                                notification.style.display = 'block'
+                                cvWrapper.style.display = 'flex'
+                                blurPopUp.style.zIndex = '99'
+                                blurPopUp.style.opacity = '1'
+                                loadingPopUp.style.zIndex = '100'
+                                loadingPopUp.style.top = '0%'
+                                loadingPopUp.style.opacity = '1'
+                            })
+                            .then(() => delay(randomMs(3000, 2000)))
+                            .then(() => loadingText.textContent = 'მონაცემების დამუშავება')
+                            .then(() => delay(randomMs(5000, 3500)))
+                            .then(() => loadingText.textContent = 'რეზიუმეს ფორმირება')
+                            .then(() => delay(randomMs(3000, 2000)))
+                            .then(() => loadingPopUpInner('რეზიუმე წარმატებულად დამზადდა', verifyiedSvg))
+                            .then(() => delay(800))
+                            .then(() => {
+                                notification.style.opacity = '1'
+                                cvWrapper.style.opacity = '1'
+                                blurPopUp.style.opacity = '0'
+                                loadingPopUp.style.opacity = '0'
+                                loadingPopUp.style.top = '-50%'
+                                setTimeout(() => {
+                                    blurPopUp.style.zIndex = '-99'
+                                    document.querySelector('html').style.overflow = 'unset';
+                                    document.body.style.overflow = 'unset'
+                                }, 400);
+                            })
+                            .then(() => delay(400))
+                    })
+                    .catch(err => console.log(err))
             })
-            .then(() => delay(randomMs(3000, 2000)))
-            .then(() => loadingText.textContent = 'მონაცემების დამუშავება')
-            .then(() => delay(randomMs(5000, 3500)))
-            .then(() => loadingText.textContent = 'რეზიუმეს ფორმირება')
-            .then(() => delay(randomMs(3000, 2000)))
-            .then(() => loadingPopUpInner('რეზიუმე წარმატებულად დამზადდა', verifyiedSvg))
-            .then(() => delay(800))
-            .then(() => {
-                blurPopUp.style.opacity = '0'
-                loadingPopUp.style.opacity = '0'
-                loadingPopUp.style.top = '-50%'
-                setTimeout(() => {
-                    blurPopUp.style.zIndex = '-99'
-                    document.querySelector('html').style.overflow = 'unset';
-                    document.body.style.overflow = 'unset'
-                }, 400);
-            })
-            .then(() => delay(400))
-            .then(() =>
-            { 
-                history.pushState(null, null, 'index.html');
-                window.onpopstate = function () {
-                    history.go(1);
-                };
-                window.location.href = 'finished.html'
-            })
+
     }
 })
 

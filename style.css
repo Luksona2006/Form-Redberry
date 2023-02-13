@@ -347,9 +347,14 @@ input[type="date"] {
     position: absolute;
 }
 
-textarea, .select{
+textarea{
     width: 100%;
     padding: 16px 12px;
+}
+
+.select {
+    width: 100%;
+    padding: 16px 32px 16px 16px;
 }
 
 input {
@@ -419,6 +424,7 @@ textarea {
     width: 100%;
     display: grid;
     grid-template-columns: 1.4fr 1fr;
+    transition: 0.4s all;
 }
 
 .form__wrapper {
@@ -669,12 +675,20 @@ select {
     transition: 0.4s all;
 }
 
-/* FINAL PAGE */
+/* AFTER CV SUBMITING APPEARD UI */
   
 .cv__wrapper {
-    display: flex;
+    display: none;
     gap: 82px;
     width: 100%;
+
+    opacity: 0;
+}
+
+#cv__image img {
+    width: 246px;
+    height: 246px;
+    border-radius: 100%;
 }
 
 .cv__wrapper .form__result {
@@ -690,6 +704,9 @@ select {
 }
 
 #notification {
+    height: fit-content;
+    display: none;
+    opacity: 0;
     position: absolute;
     right: 28px;
     top: 48px;
@@ -698,7 +715,6 @@ select {
     border: 1px solid #E4E4E4;
     box-shadow: 0px 4px 28px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
-    height: fit-content;
     transition: 0.4s all;
     z-index: 3;
 }
@@ -803,10 +819,16 @@ select {
     }
 }
 
-@media(max-width: 920px) {
+@media(max-width: 990px) {
     .loading__popUp {
         flex-direction: column;
         text-align: center;
+    }
+    
+    .input__divs {
+        display: flex;
+        flex-direction: column;
+        gap: 34px;
     }
 }
 
@@ -846,12 +868,6 @@ select {
     .button__back {
         top: 32px;
         left: 32px;
-    }
-
-    .input__divs {
-        display: flex;
-        flex-direction: column;
-        gap: 34px;
     }
 
 }

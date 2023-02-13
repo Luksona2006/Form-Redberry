@@ -11,6 +11,10 @@
 <body>
     <!-- BLUR -->
     <div class="blurPopUp"></div>
+    <div id="notification">
+        <p>რეზიუმე წარმატებით <br>გაიგზავნა 🎉</p>
+        <img src="images/delete__icon.png" alt="remove notification">
+    </div>
     <main>
         <!-- REFRESH REQUST BUTTON -->
         <button class="button__back">
@@ -135,10 +139,52 @@
                 <div><img id="resumeIcon" src="images/resume__icon.png" alt="resume icon"></div>
             </div>
         </div>
+        <!-- FOR SUBMITTED CV -->
+        <div class="cv__wrapper">
+            <div class="form__result cv">
+                <div class="result__wrapper">
+                    <div id="cv__image"><img src="" alt=""></div>
+                    <div class="info">
+                        <h4 class="red-34" id="cv__name"></h4>
+                        <div class="contacts">
+                            <div><img src="" alt="">
+                                <p class="black-18" id="cv__email"></p>
+                            </div>
+                            <div><img src="" alt="">
+                                <p class="black-18" id="cv__number"></p>
+                            </div>
+                        </div>
+                        <div class="infos">
+                            <h5 class="red-18"></h5>
+                            <p class="black-16" id="cv__about"></p>
+                        </div>
+                        <div class="line"></div>
+                        <div class="infos" id="cv__experience_infos">
+                            <h5 class="red-18">გამოცდილება</h5>
+                            <div>
+                                <p class="black-16b cv__position_employer"></p>
+                                <span class="cv__experience_date"></span>
+                                <p class="black-16 cv__aboutExperience"></p>
+                            </div>
+                        </div>
+                        <div class="infos" id="cv__education_infos">
+                            <h5 class="red-18">განათლება</h5>
+                            <div>
+                                <p class="black-16b cv__school_quality"></p>
+                                <span class="cv__education_date"></span>
+                                <p class="black-16 cv__aboutEducation"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div><img id="resumeIcon" src="images/resume__icon.png" alt="resume icon"></div>
+            </div>
+        </div>
     </main>
 
-    <script type="module" src="js/education.js"></script>
     <script src="js/refreshForm.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="module" src="js/education.js"></script>
 </body>
 
 </html>

@@ -52,7 +52,7 @@ if (!localStorage.getItem('Person')) {
         educations: [
             {
                 institute: "",
-                degree: "",
+                degree_id: "",
                 due_date: "",
                 description: ""
             }
@@ -96,7 +96,10 @@ custombtn.addEventListener('click', function (e) {
     defaultbtn.click();
 });
 
-defaultbtn.addEventListener('change', function () {
+defaultbtn.addEventListener('change', function (e) {
+
+    // base69 
+    const file = this.files[0]
     const reader = new FileReader();
     if (reader.result === storageGetItem('Person')['image']) return
     reader.addEventListener('load', function () {
@@ -115,8 +118,8 @@ defaultbtn.addEventListener('change', function () {
             })
             .then(() => delay(randomMs(4500, 3000)))
             .then(() => {
-                if (defaultbtn.files[0].type === 'image/png' || defaultbtn.files[0].type === 'image/jpg' || defaultbtn.files[0].type === 'image/jpeg') loadingPopUpInner('ფაილი წარმატებით დამუშავდა', verifyiedSvg)
-                else loadingPopUpInner('ფაილის ფორმატი უნდა იყოს png/jpg/jpeg', wrongSvg)
+                if (file.type.match('image.*')) loadingPopUpInner('ფაილი წარმატებით დამუშავდა', verifyiedSvg)
+                else loadingPopUpInner('ფაილი არ არის სურათი', wrongSvg)
             })
             .then(() => delay(1200))
             .then(() => {
@@ -133,7 +136,7 @@ defaultbtn.addEventListener('change', function () {
             })
             .then(() => {
                 loadingPopUpInner('ფაილის დამუშავება', loadingSvg)
-                if(defaultbtn.files[0].type === 'image/png' || defaultbtn.files[0].type === 'image/jpg' || defaultbtn.files[0].type === 'image/jpeg') {
+                if(file.type.match('image.*')) {
                     cvObj = storageGetItem('Person')
                     cvObj.image = reader.result;
                     imageResult.parentElement.style.display = 'inline-block'
@@ -142,7 +145,7 @@ defaultbtn.addEventListener('change', function () {
                 }
             })
     })
-    reader.readAsDataURL(this.files[0])
+    reader.readAsDataURL(file)
 });
 
 [firstnameInput, lastNameInput].forEach(element => {
