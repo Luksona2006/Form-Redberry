@@ -88,17 +88,15 @@ if(storageGetItem('Person')['experiences'].length - 1 > 0) {
 
 let cvObj = storageGetItem('Person')
 
-// Giving inputs their stored value
-for (let i = 0; i < formBlock.length; i++) {
+formBlock.forEach((_, i) => {
+    // Giving inputs their stored value
     positionInput[i].value = cvObj.experiences[i].position
     employerInput[i].value = cvObj.experiences[i].employer
     dateStartInput[i].value = cvObj.experiences[i].start_date
     dateEndInput[i].value = cvObj.experiences[i].due_date
-    aboutExperienceTextarea[i].value = cvObj.experiences[i].description
-}
+    aboutExperienceTextarea[i].value = cvObj.experiences[i].description 
 
-// If all inputs isn't empty, then check for validation all of it
-for (let i = 0; i < formBlock.length; i++) {
+    // If all inputs isn't empty, then check for validation all of it
     if (cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' || cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '' || cvObj.experiences[i].description !== '') {
         minTwoCheck(positionInput[i]);
         minTwoCheck(employerInput[i]);
@@ -106,24 +104,21 @@ for (let i = 0; i < formBlock.length; i++) {
             inputSimpleVerify(element)
         })
     }
-}
 
-// Displaying values from stored object (data from personal page)
-personalPageInputs()
-
-// Displaying values from stored object (data from experience page)
-for (let i = 0; i < formBlock.length; i++) {
+    // Displaying values from stored object (data from experience page)
     positionEmployerResult[i].textContent = `${cvObj.experiences[i].position !== '' || cvObj.experiences[i].employer !== '' ? cvObj.experiences[i].position + ', ' + cvObj.experiences[i].employer : '' } `;
     if (cvObj.experiences[i].start_date !== '' || cvObj.experiences[i].due_date !== '') {
         experienceDateResult[i].textContent = `${cvObj.experiences[i].start_date + ' - ' + cvObj.experiences[i].due_date} `;
     }
     aboutExperienceResult[i].textContent = `${cvObj.experiences[i].description}`;
-}
+})
 
+// Displaying values from stored object (data from personal page)
+personalPageInputs()
 
 // EVENT HANDLERS
 
-for (let i = 0; i < formBlock.length; i++) {
+formBlock.forEach((_, i) => {
     [positionInput[i], employerInput[i]].forEach(element => {
         element.addEventListener('keyup', function () {
             minTwoCheck(element);
@@ -151,7 +146,7 @@ for (let i = 0; i < formBlock.length; i++) {
         changeStorage('description', this, i, 'experiences')
         aboutExperienceResult[i].textContent = `${this.value} `
     });
-}
+})
 
 experienceBlockBtn.addEventListener('click', function (e) {
     e.preventDefault();
@@ -174,7 +169,7 @@ formSubmit.addEventListener('click', function (e) {
     e.preventDefault();
     let valid = true;
 
-    for (let i = 0; i < formBlock.length; i++) {
+    formBlock.forEach((_,i) => {
         minTwoCheck(positionInput[i]);
         minTwoCheck(employerInput[i]);
         inputSimpleVerify(aboutExperienceTextarea[i]);
@@ -182,13 +177,11 @@ formSubmit.addEventListener('click', function (e) {
         [dateStartInput[i], dateEndInput[i], aboutExperienceTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
         });
-    }
 
-    for (let i = 0; i < formBlock.length; i++) {
         [positionInput[i], employerInput[i], dateStartInput[i], dateEndInput[i], aboutExperienceTextarea[i]].forEach(element => {
             if (element.style.border === '2px solid rgb(239, 80, 80)') valid = false;
         });
-    }
+    });
 
     if (valid) window.location.href = "education.html";
 })

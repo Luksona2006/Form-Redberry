@@ -101,24 +101,22 @@ if (storageGetItem('Person')['educations'].length - 1 > 0) {
 
 let cvObj = storageGetItem('Person')
 
-// Giving inputs their stored value
-for (let i = 0; i < formBlock.length; i++) {
+formBlock.forEach((_, i) => {
+    // Giving inputs their stored value
     educationTypesObj.map(element => selectorPopUp[i].querySelector('ul').insertAdjacentHTML('beforeend', `<li class="li">${element.title}</li>`))
     schoolInput[i].value = cvObj.educations[i].institute
     qualitySelected[i].textContent = cvObj.educations[i].degree_id === '' ? 'აირჩიეთ ხარისხი' : educationTypesObj.find(obj => obj.id === cvObj.educations[i].degree_id).title;
     eduDateEndInput[i].value = cvObj.educations[i].due_date
     aboutEducationTextarea[i].value = cvObj.educations[i].description
-}
-
-// If all inputs isn't empty, then check for validation all of it
-for (let i = 0; i < formBlock.length; i++) {
+    
+    // If all inputs isn't empty, then check for validation all of it
     if (cvObj.educations[i].institute !== '' || cvObj.educations[i].degree_id !== '' || cvObj.educations[i].due_date !== '' || cvObj.educations[i].description) {
         minTwoCheck(schoolInput[i]);
         [qualitySelected[i], eduDateEndInput[i], aboutEducationTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
         })
     }
-}
+});
 
 // Displaying values from stored object (data from personal page)
 personalPageInputs()
@@ -149,7 +147,7 @@ for (let i = 0; i < storageGetItem('Person')['educations'].length; i++) {
 
 
 // EVENT HANDLERS
-for (let i = 0; i < formBlock.length; i++) {
+formBlock.forEach((_, i) => {
     schoolInput[i].addEventListener('keyup', function () {
         minTwoCheck(this);
         if (this.value === '') defaultInput(this)
@@ -187,7 +185,7 @@ for (let i = 0; i < formBlock.length; i++) {
         changeStorage('description', this, i, 'educations')
         aboutEducationResult[i].textContent = `${this.value} `
     });
-}
+})
 
 experienceBlockBtn.addEventListener('click', function (e) {
     e.preventDefault();
@@ -205,7 +203,7 @@ experienceBlockBtn.addEventListener('click', function (e) {
     window.location.reload();
 })
 
-for (let i = 0; i < formBlock.length; i++) {
+formBlock.forEach((_, i) => {
     selectorPopUp[i].addEventListener('click', function (e) {
         if (e.target.classList.contains('li')) {
             qualitySelected[i].textContent = e.target.textContent
@@ -225,25 +223,23 @@ for (let i = 0; i < formBlock.length; i++) {
             inputSimpleVerify(qualitySelected[i])
         }
     })
-}
+})
 
 
 formSubmit.addEventListener('click', function (e) {
     e.preventDefault();
     let valid = true;
 
-    for (let i = 0; i < formBlock.length; i++) {
+    formBlock.forEach((_, i) => {
         minTwoCheck(schoolInput[i]);
         [qualitySelected[i], eduDateEndInput[i], aboutEducationTextarea[i]].forEach(element => {
             inputSimpleVerify(element)
         });
-    }
 
-    for (let i = 0; i < formBlock.length; i++) {
         [qualitySelected[i], eduDateEndInput[i], schoolInput[i], aboutEducationTextarea[i]].forEach(element => {
             if (element.style.border === '2px solid rgb(239, 80, 80)') valid = false;
         });
-    }
+    })
 
     if (valid) {
         window.scrollTo(0, 0)
@@ -284,6 +280,7 @@ formSubmit.addEventListener('click', function (e) {
                     .then(response => response)
                     .then(data => dataRecieved = data)
                     .then(() => {
+                        if(!dataRecieved) return
                         localStorage.removeItem('Person') // Removing data
                         dataRecieved = dataRecieved.data // Set dataRecieved value to data
                         document.querySelector('.main__wrapper').style.opacity = '0'
